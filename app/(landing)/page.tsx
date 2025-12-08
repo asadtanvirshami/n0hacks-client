@@ -15,6 +15,7 @@ import Image from "next/image";
 import { World } from "@/components/ui/globe";
 import logo from "@/public/images/logo.svg";
 import Link from "next/link";
+import LanguageSwitcher from "@/components/ui/language-switcher";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1255,6 +1256,33 @@ const Page: React.FC = () => {
               <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-gradient-to-r from-emerald-400 to-emerald-200 transition-all duration-300 group-hover:w-full"></span>
             </button>
           ))}
+          <LanguageSwitcher />
+          <Button
+            onClick={() => scrollToSection("contact")}
+            className="
+    relative overflow-hidden
+    px-6 py-3 rounded-xl font-semibold
+    text-black
+    bg-gradient-to-br from-[#00ff9d] via-[#00e676] to-[#00c853]
+    shadow-[0_0_12px_#00ff9d,0_0_24px_#00ff9d]
+    hover:shadow-[0_0_20px_#00ff9d,0_0_40px_#00ff9d]
+    transition-all duration-300
+  "
+          >
+            {/* Neon Circuit Overlay */}
+            <span
+              className="
+      pointer-events-none absolute inset-0 opacity-20
+      bg-[radial-gradient(circle_at_10%_10%,#00ff9d_0%,transparent_60%),
+          linear-gradient(120deg,transparent_0%,#00ff9d_8%,transparent_16%),
+          linear-gradient(300deg,transparent_0%,#00ff9d_10%,transparent_20%)]
+      bg-[length:200%_200%]
+      animate-[pulseCircuit_6s_linear_infinite]
+    "
+            />
+
+            <FormattedMessage id="nav.get_in_touch" />
+          </Button>
         </nav>
 
         <button
@@ -1301,6 +1329,33 @@ const Page: React.FC = () => {
               <FormattedMessage id={item.id} />
             </p>
           ))}
+          <LanguageSwitcher />
+          <Button
+            onClick={() => scrollToSection("contact")}
+            className="
+    relative overflow-hidden
+    px-6 py-3 rounded-xl font-semibold
+    text-black
+    bg-gradient-to-br from-[#00ff9d] via-[#00e676] to-[#00c853]
+    shadow-[0_0_12px_#00ff9d,0_0_24px_#00ff9d]
+    hover:shadow-[0_0_20px_#00ff9d,0_0_40px_#00ff9d]
+    transition-all duration-300
+  "
+          >
+            {/* Neon Circuit Overlay */}
+            <span
+              className="
+      pointer-events-none absolute inset-0 opacity-20
+      bg-[radial-gradient(circle_at_10%_10%,#00ff9d_0%,transparent_60%),
+          linear-gradient(120deg,transparent_0%,#00ff9d_8%,transparent_16%),
+          linear-gradient(300deg,transparent_0%,#00ff9d_10%,transparent_20%)]
+      bg-[length:200%_200%]
+      animate-[pulseCircuit_6s_linear_infinite]
+    "
+            />
+
+            <FormattedMessage id="nav.get_in_touch" />
+          </Button>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-[radial-gradient(circle_at_bottom,rgba(0,255,120,0.3),transparent)] blur-2xl" />
       </div>
