@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "about": "Sobre nosotros",
+    "services": "Servicios",
+    "capabilities": "Capacidades",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "N0HACKS",
+    "sub_title": "Especialistas en ciberseguridad para ayudar a proteger tus activos digitales",
+    "cta": "Comencemos"
+  },
+  "about": {
+    "badge": "SOBRE NOSOTROS",
+    "title": "El equipo de profesionales que realmente quieres a tu lado.",
+    "body_1": "Las brechas de seguridad, el ransomware y las campañas de phishing dirigido ya no son casos aislados; son la norma. Una estrategia de defensa seria es la única forma de evitar convertirte en otro titular o nota de rescate.",
+    "body_2": "N0HACKS es un equipo de especialistas en seguridad con experiencia en entornos de alto riesgo e infraestructuras complejas. Combinamos red teaming, forense digital e inteligencia estratégica en ciberseguridad para exponer rutas de ataque reales antes que los criminales. Cada proyecto se construye sobre el detalle, la verificación y una reducción clara del riesgo.",
+    "bullets": {
+      "attacker_mindset_title": "Mentalidad de atacante real",
+      "attacker_mindset_body": "Simulamos adversarios motivados, no solo escáneres o auditorías de checklist.",
+      "end_to_end_title": "Acompañamiento de extremo a extremo",
+      "end_to_end_body": "Desde los primeros caminos de compromiso hasta la remediación y el retesteo, nos mantenemos en el bucle.",
+      "detail_title": "Entrega obsesionada con el detalle",
+      "detail_body": "Narrativas claras, hallazgos accionables y cero informes genéricos copiados y pegados.",
+      "high_risk_title": "Pensado para equipos de alto riesgo",
+      "high_risk_body": "Startups, fintech, salud, Web3 y cualquier stack donde el fallo sea costoso."
+    },
+    "why_badge": "POR QUÉ N0HACKS",
+    "why_body": "Tratamos cada proyecto como si el incidente ya hubiera ocurrido. Eso implica modelado de amenazas realista, exploits encadenados y un camino claro para endurecer tu entorno.",
+    "focus_badge": "FOCO",
+    "focus_body": "Seguridad ofensiva,\n          nada más.",
+    "style_badge": "ESTILO",
+    "style_body": "Silencioso, preciso,\n          orientado a resultados."
+  },
+  "timeline": {
+    "items": {
+      "recon_badge": "01 • Reconocimiento",
+      "recon_title": "Perfilamos tu superficie de ataque.",
+      "recon_body": "OSINT, mapeo de infraestructura y descubrimiento de puntos de entrada de alto valor tal y como lo haría un adversario real.",
+      "exploit_badge": "02 • Explotación",
+      "exploit_title": "Encadenamos exploits reales.",
+      "exploit_body": "Desde phishing y credential stuffing hasta vulnerabilidades web y malas configuraciones en la nube, recorremos toda la kill chain.",
+      "remediate_badge": "03 • Remediación",
+      "remediate_title": "Te ayudamos a cerrar cada camino.",
+      "remediate_body": "Correcciones priorizadas, guía de arquitectura y retesteo hasta que tu riesgo real baje a niveles aceptables."
+    }
+  },
+  "cisco": {
+    "title": "CISCO como Servicio",
+    "body": "Arquitectura de seguridad Cisco, automatización e inteligencia gestionadas por expertos — entregadas como un servicio continuo para equipos de alto riesgo y alta velocidad.",
+    "cards": {
+      "card1_label": "01",
+      "card1_title": "Arquitectura de red Zero-Trust",
+      "card1_body": "Validación continua de identidad, segmentación y aplicación adaptativa en toda tu infraestructura basada en Cisco.",
+      "card2_label": "02",
+      "card2_title": "Automatización y respuesta con SecureX",
+      "card2_body": "Automatización de flujos, correlación de alertas y orquestación de respuesta en tiempo real en endpoints, nube y perímetro.",
+      "card3_label": "03",
+      "card3_title": "Inteligencia adaptable de firewall",
+      "card3_body": "Ajuste de Firepower/ASA, analítica de amenazas, refinamiento de políticas y endurecimiento activo frente a vectores de ataque emergentes."
+    }
+  },
+  "world": {
+    "title": "Actividad global de amenazas",
+    "body": "Visualización en tiempo real de intentos de ataque globales y operaciones defensivas impulsadas por N0HACKS.",
+    "stats": {
+      "attacks_detected": "Ataques detectados",
+      "defences_executed": "Defensas ejecutadas"
+    }
+  },
+  "horizontal": {
+    "title": "Servicios de alto impacto para equipos críticos.",
+    "subtitle": "Un flujo horizontal de capacidades que puedes enchufar según dónde estés más expuesto.",
+    "services": {
+      "s1_label": "01",
+      "s1_title": "Protección digital ejecutiva",
+      "s1_body": "Protección de alto nivel para fundadores, C-suite y personas clave en dispositivos y plataformas.",
+      "s2_label": "02",
+      "s2_title": "Retirada de marcas y activos",
+      "s2_body": "Respuesta rápida ante phishing, dominios suplantados y perfiles falsos que abusan de tu marca.",
+      "s3_label": "03",
+      "s3_title": "Revisión de transacciones de alto riesgo",
+      "s3_body": "Forense y verificación para grandes transferencias, exits y acuerdos estratégicos.",
+      "s4_label": "04",
+      "s4_title": "Línea directa de incidentes VIP",
+      "s4_body": "Acceso directo a operadores senior cuando algo se ve raro o se rompe en producción.",
+      "s5_label": "05",
+      "s5_title": "Análisis profundo de seguridad en la nube",
+      "s5_body": "Revisiones específicas de cargas críticas, identidades y políticas de IAM.",
+      "s6_label": "06",
+      "s6_title": "Monitorización de fraude y abuso",
+      "s6_body": "Patrones, anomalías y campañas de abuso mapeadas a tus productos."
+    }
+  },
+  "capabilities": {
+    "title": "Capacidades ofensivas de extremo a extremo.",
+    "body": "Desde red teaming e investigación de fraude hasta auditorías de código, N0HACKS cubre toda la kill chain.",
+    "cards": {
+      "c1_title": "Red Team",
+      "c1_body": "Simulaciones de adversarios de espectro completo contra aplicaciones, infraestructura y personas.",
+      "c2_title": "Pentesting interno / externo",
+      "c2_body": "Abusamos de rutas de ataque reales desde el perímetro hasta los sistemas centrales.",
+      "c3_title": "Ingeniería social",
+      "c3_body": "Campañas dirigidas para medir y reforzar la superficie de ataque humana.",
+      "c4_title": "Pentesting Wi-Fi",
+      "c4_body": "APs maliciosos, cifrado débil y movimientos laterales desde la red inalámbrica.",
+      "c5_title": "Vigilancia digital",
+      "c5_body": "OSINT, dark web y monitorización de exposición de datos para personas clave.",
+      "c6_title": "Investigación y análisis de fraude",
+      "c6_body": "Trazado de huellas digitales, infraestructura y actores detrás del fraude.",
+      "c7_title": "Inteligencia estratégica en ciberseguridad",
+      "c7_body": "Inteligencia de amenazas mapeada a tu modelo de negocio y geografía.",
+      "c8_title": "Pruebas de carga legítima / DDoS",
+      "c8_body": "Ejercicios de tráfico controlado para poner a prueba la resiliencia.",
+      "c9_title": "Auditorías web, IoT, nube y código fuente",
+      "c9_body": "Revisiones profundas de superficies críticas y prácticas de ingeniería."
+    }
+  },
+  "contact": {
+    "badge": "LISTOS CUANDO TÚ LO ESTÉS",
+    "title": "Deja de esperar que estés seguro. Empieza a saberlo.",
+    "body": "Tanto si reaccionas a un incidente en vivo como si refuerzas antes del próximo movimiento, nos integramos directamente con tu equipo y trabajamos el problema de extremo a extremo — desde la primera señal hasta la corrección verificada.",
+    "bullets": {
+      "b1": "Operadores curtidos en batalla, no auditores genéricos.",
+      "b2": "Prioridades claras, rutas de ataque realistas y cero relleno.",
+      "b3": "Diseñado para founders, CISOs y equipos de alta velocidad."
+    },
+    "card_badge": "CONTACTO",
+    "card_title": "Mapeemos tu superficie de ataque.",
+    "card_body": "Comparte algunos detalles y responderemos con un plan enfocado, a nivel de operador — no un guion de ventas.",
+    "form": {
+      "email_label": "Correo de trabajo",
+      "email_placeholder": "tú@empresa.com",
+      "company_label": "Empresa / rol",
+      "company_placeholder": "CTO en fintech, CISO, fundador…",
+      "message_label": "¿Qué no te deja dormir?",
+      "message_placeholder": "Describe brevemente tu stack, incidente o preocupación.",
+      "submit": "Solicitar revisión de un operador"
+    },
+    "disclaimer": "Sin spam. Sin listas de correo. Tienes contacto directo con el equipo de N0HACKS."
+  },
+  "footer": {
+    "brand": "N0HACKS",
+    "description": "Operadores de seguridad ofensiva de élite. Red teaming, inteligencia, forense y defensa basada en incidentes para empresas que no pueden permitirse fallar.",
+    "navigation_heading": "Navegación",
+    "navigation": {
+      "about_us": "Sobre nosotros",
+      "services": "Servicios",
+      "capabilities": "Capacidades",
+      "contact": "Contacto"
+    },
+    "contact_heading": "Contacto",
+    "contact_body": "¿Necesitas una actuación rápida o respuesta a incidentes? Nuestros operadores responden directamente. Sin capa comercial.",
+    "contact_email": "info@n0hacks.com",
+    "contact_location": "+376 665320 • Andorra",
+    "cta": "Solicitar acceso a operadores",
+    "copyright": "Todos los derechos reservados."
+  },
+  "social": {
+    "twitter": "twitter",
+    "github": "github",
+    "linkedin": "linkedin"
+  }
+}

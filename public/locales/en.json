@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "capabilities": "Capabilities",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "N0HACKS",
+    "sub_title": "Elite cyber specialists to help you secure your digital assets",
+    "cta": "Let's Start"
+  },
+  "about": {
+    "badge": "ABOUT US",
+    "title": "The team of professionals you actually want on your side.",
+    "body_1": "Security breaches, ransomware and targeted phishing campaigns are no longer edge cases; they’re the norm. A serious defence strategy is the only way to avoid becoming another headline or ransom note.",
+    "body_2": "N0HACKS is a team of security specialists with experience across high-stakes engagements and complex infrastructures. We combine red teaming, digital forensics and strategic cyber intelligence to expose real attack paths before criminals do. Every engagement is built around detail, verification and clear risk reduction.",
+    "bullets": {
+      "attacker_mindset_title": "Real attacker mindset",
+      "attacker_mindset_body": "We simulate motivated adversaries, not just scanners or checklist audits.",
+      "end_to_end_title": "End-to-end support",
+      "end_to_end_body": "From first compromise paths to remediation and retesting, we stay in the loop.",
+      "detail_title": "Detail-obsessed delivery",
+      "detail_body": "Clear narratives, actionable findings and no generic copy-paste reporting.",
+      "high_risk_title": "Built for high-risk teams",
+      "high_risk_body": "Startups, fintech, healthcare, Web3 and any stack where failure is expensive."
+    },
+    "why_badge": "WHY N0HACKS",
+    "why_body": "We treat every engagement as if an incident has already happened. That means realistic threat modelling, chained exploits and a clear path to hardening your environment.",
+    "focus_badge": "FOCUS",
+    "focus_body": "Offensive security,\n          nothing else.",
+    "style_badge": "STYLE",
+    "style_body": "Quiet, precise,\n          results-driven."
+  },
+  "timeline": {
+    "items": {
+      "recon_badge": "01 • Recon",
+      "recon_title": "We profile your attack surface.",
+      "recon_body": "OSINT, infra mapping and discovery of high-value entry points just like a real adversary would.",
+      "exploit_badge": "02 • Exploit",
+      "exploit_title": "We chain real-world exploits.",
+      "exploit_body": "From phishing and credential stuffing to web vulns and cloud misconfigs, we walk the full kill chain.",
+      "remediate_badge": "03 • Remediate",
+      "remediate_title": "We help you close every path.",
+      "remediate_body": "Prioritized fixes, architecture guidance and retesting until your real risk drops to acceptable levels."
+    }
+  },
+  "cisco": {
+    "title": "CISCO as a Service",
+    "body": "Expert-managed Cisco security architecture, automation and intelligence — delivered as a continuous service for high-risk, high-velocity teams.",
+    "cards": {
+      "card1_label": "01",
+      "card1_title": "Zero-Trust Network Architecture",
+      "card1_body": "Continuous identity validation, segmentation and adaptive enforcement across your Cisco-driven infrastructure.",
+      "card2_label": "02",
+      "card2_title": "SecureX Automation & Response",
+      "card2_body": "Workflow automation, alert correlation and real-time response orchestration across endpoints, cloud and perimeter.",
+      "card3_label": "03",
+      "card3_title": "Adaptive Firewall Intelligence",
+      "card3_body": "Firepower/ASA tuning, threat analytics, policy refinement and active hardening against emerging attack vectors."
+    }
+  },
+  "world": {
+    "title": "Global Threat Activity",
+    "body": "Live visualization of global attack attempts and defensive operations powered by N0HACKS.",
+    "stats": {
+      "attacks_detected": "Attacks Detected",
+      "defences_executed": "Defences Executed"
+    }
+  },
+  "horizontal": {
+    "title": "High-touch services for critical teams.",
+    "subtitle": "A horizontal stream of capabilities you can plug in based on where you’re exposed the most.",
+    "services": {
+      "s1_label": "01",
+      "s1_title": "Executive Digital Protection",
+      "s1_body": "High-touch protection for founders, C-suite and key personas across devices and platforms.",
+      "s2_label": "02",
+      "s2_title": "Brand & Asset Take-Downs",
+      "s2_body": "Rapid response to phishing, spoofed domains and fake profiles abusing your brand.",
+      "s3_label": "03",
+      "s3_title": "High-Risk Transaction Review",
+      "s3_body": "Forensics and verification for large transfers, exits and strategic deals.",
+      "s4_label": "04",
+      "s4_title": "VIP Incident Hotline",
+      "s4_body": "Direct access to senior operators when something feels off or breaks in production.",
+      "s5_label": "05",
+      "s5_title": "Cloud Security Deep Dives",
+      "s5_body": "Targeted reviews of critical workloads, identities and IAM policies.",
+      "s6_label": "06",
+      "s6_title": "Fraud & Abuse Monitoring",
+      "s6_body": "Patterns, anomalies and abuse campaigns mapped to your products."
+    }
+  },
+  "capabilities": {
+    "title": "Offensive capabilities. End-to-end.",
+    "body": "From red teaming and fraud investigation to code audits, N0HACKS covers the full kill chain.",
+    "cards": {
+      "c1_title": "Red Team",
+      "c1_body": "Full-spectrum adversary simulations against apps, infra and people.",
+      "c2_title": "Internal / External Pentesting",
+      "c2_body": "Abuse real attack paths from perimeter to core systems.",
+      "c3_title": "Social Engineering",
+      "c3_body": "Targeted campaigns to measure and harden human attack surface.",
+      "c4_title": "Wi-Fi Pentesting",
+      "c4_body": "Rogue APs, weak crypto and lateral pivoting from wireless.",
+      "c5_title": "Digital Surveillance",
+      "c5_body": "OSINT, dark web and data exposure monitoring for key personas.",
+      "c6_title": "Fraud Investigation & Analysis",
+      "c6_body": "Tracing digital trails, infrastructure and actors behind fraud.",
+      "c7_title": "Strategic Cyber Intelligence",
+      "c7_body": "Threat intel mapped to your business model and geography.",
+      "c8_title": "Legitimate Load / DDoS Testing",
+      "c8_body": "Controlled traffic exercises to stress-test resilience.",
+      "c9_title": "Web, IoT, Cloud & Source Code Audits",
+      "c9_body": "Deep reviews of critical surfaces and engineering practices."
+    }
+  },
+  "contact": {
+    "badge": "READY WHEN YOU ARE",
+    "title": "Stop hoping you’re secure. Start knowing.",
+    "body": "Whether you’re reacting to a live incident or hardening before the next move, we plug directly into your team and work the problem end-to-end — from first signal to verified fix.",
+    "bullets": {
+      "b1": "Battle-tested operators, not generic auditors.",
+      "b2": "Clear priorities, realistic attack paths, zero fluff.",
+      "b3": "Designed for founders, CISOs and high-velocity teams."
+    },
+    "card_badge": "CONTACT",
+    "card_title": "Let's map your attack surface.",
+    "card_body": "Share a few details and we’ll respond with a focused, operator-level plan — not a sales script.",
+    "form": {
+      "email_label": "Work email",
+      "email_placeholder": "you@company.com",
+      "company_label": "Company / role",
+      "company_placeholder": "CTO @ Fintech, CISO, Founder…",
+      "message_label": "What's keeping you up?",
+      "message_placeholder": "Briefly describe your stack, incident or concern.",
+      "submit": "Request operator review"
+    },
+    "disclaimer": "No spam. No mailing list. You get direct contact with the N0HACKS team."
+  },
+  "footer": {
+    "brand": "N0HACKS",
+    "description": "Elite offensive security operators. Red teaming, intelligence, forensics and incident-driven defence for companies who cannot afford failure.",
+    "navigation_heading": "Navigation",
+    "navigation": {
+      "about_us": "About Us",
+      "services": "Services",
+      "capabilities": "Capabilities",
+      "contact": "Contact"
+    },
+    "contact_heading": "Contact",
+    "contact_body": "Need rapid engagement or incident response? Our operators answer directly. No sales layer.",
+    "contact_email": "info@n0hacks.com",
+    "contact_location": "+376 665320 • Andorra",
+    "cta": "Request Operator Access",
+    "copyright": "All rights reserved."
+  },
+  "social": {
+    "twitter": "twitter",
+    "github": "github",
+    "linkedin": "linkedin"
+  }
+}
