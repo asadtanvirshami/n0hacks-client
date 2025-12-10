@@ -13,7 +13,7 @@
   },
   "about": {
     "badge": "ABOUT US",
-    "title": "The team of professionals you actually want on your side.",
+    "title": "Experts who safeguard your digital world — relentlessly.",
     "body_1": "Security breaches, ransomware and targeted phishing campaigns are no longer edge cases; they’re the norm. A serious defence strategy is the only way to avoid becoming another headline or ransom note.",
     "body_2": "N0HACKS is a team of security specialists with experience across high-stakes engagements and complex infrastructures. We combine red teaming, digital forensics and strategic cyber intelligence to expose real attack paths before criminals do. Every engagement is built around detail, verification and clear risk reduction.",
     "bullets": {
@@ -47,18 +47,20 @@
     }
   },
   "cisco": {
-    "title": "CISCO as a Service",
-    "body": "Expert-managed Cisco security architecture, automation and intelligence — delivered as a continuous service for high-risk, high-velocity teams.",
+    "title": "CISO as a Service",
+    "body": "Executive-level cybersecurity leadership, architecture, and threat oversight — delivered as an always-on service for organizations that demand resilience, clarity, and control.",
     "cards": {
       "card1_label": "01",
-      "card1_title": "Zero-Trust Network Architecture",
-      "card1_body": "Continuous identity validation, segmentation and adaptive enforcement across your Cisco-driven infrastructure.",
+      "card1_title": "Zero-Trust Security Architecture",
+      "card1_body": "Continuous identity verification, granular segmentation, and adaptive policy enforcement across all users, devices, and workloads.",
+
       "card2_label": "02",
-      "card2_title": "SecureX Automation & Response",
-      "card2_body": "Workflow automation, alert correlation and real-time response orchestration across endpoints, cloud and perimeter.",
+      "card2_title": "Security Automation & Incident Response",
+      "card2_body": "End-to-end automation, intelligent alert correlation, and orchestrated real-time response across endpoints, cloud environments, and critical infrastructure.",
+
       "card3_label": "03",
-      "card3_title": "Adaptive Firewall Intelligence",
-      "card3_body": "Firepower/ASA tuning, threat analytics, policy refinement and active hardening against emerging attack vectors."
+      "card3_title": "Threat-Driven Governance & Risk Management",
+      "card3_body": "Proactive risk assessments, compliance alignment, advanced threat modeling, and security posture refinement guided by CISO-level expertise."
     }
   },
   "world": {

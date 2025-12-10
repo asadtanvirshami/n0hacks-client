@@ -1,9 +1,7 @@
 // app/(site)/page.tsx
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -12,12 +10,18 @@ import { Button } from "@/components/ui/button";
 import { FormattedMessage } from "react-intl";
 import hooded from "@/public/images/hooded.svg";
 import Image from "next/image";
-import { World } from "@/components/ui/globe";
+import dynamic from "next/dynamic";
 import logo from "@/public/images/logo.svg";
 import Link from "next/link";
 import LanguageSwitcher from "@/components/ui/language-switcher";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Globe dynamically imported for performance and to avoid SSR/window issues
+const World = dynamic(
+  () => import("@/components/ui/globe").then((m) => m.World),
+  { ssr: false }
+);
 
 const globeConfig = {
   pointSize: 4,
@@ -48,15 +52,12 @@ const organizationJsonLd = {
   name: "N0HACKS",
   url: "https://n0hacks.com",
   logo: "https://n0hacks.com/logo.svg",
-  sameAs: [
-    "https://www.linkedin.com/company/n0hacks",
-    // añade más redes si quieres
-  ],
+  sameAs: ["https://www.linkedin.com/company/n0hacks"],
   description:
-    "N0HACKS es una firma de hacking ético y red team enfocada en ciberseguridad ofensiva para startups, fintech y empresas de alto riesgo.",
+    "N0HACKS es una firma de hacking ético y red team enfocada en ciberseguridad ofensiva para startups, fintech y empresas de alto riesgo, alineada con CISOs y equipos ejecutivos.",
   address: {
     "@type": "PostalAddress",
-    addressCountry: "ES", // ajusta si quieres otra base
+    addressCountry: "ES",
   },
   contactPoint: [
     {
@@ -78,7 +79,7 @@ const globeArcs = [
     endLat: -22.9068,
     endLng: -43.1729,
     arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 1,
@@ -87,7 +88,7 @@ const globeArcs = [
     endLat: 3.139,
     endLng: 101.6869,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 1,
@@ -96,7 +97,7 @@ const globeArcs = [
     endLat: -1.303396,
     endLng: 36.852443,
     arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 2,
@@ -105,7 +106,7 @@ const globeArcs = [
     endLat: 35.6762,
     endLng: 139.6503,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 2,
@@ -114,7 +115,7 @@ const globeArcs = [
     endLat: 3.139,
     endLng: 101.6869,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 2,
@@ -123,7 +124,7 @@ const globeArcs = [
     endLat: 36.162809,
     endLng: -115.119411,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 3,
@@ -132,7 +133,7 @@ const globeArcs = [
     endLat: 22.3193,
     endLng: 114.1694,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 3,
@@ -141,7 +142,7 @@ const globeArcs = [
     endLat: 40.7128,
     endLng: -74.006,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 3,
@@ -150,7 +151,7 @@ const globeArcs = [
     endLat: 51.5072,
     endLng: -0.1276,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 4,
@@ -159,7 +160,7 @@ const globeArcs = [
     endLat: -15.595412,
     endLng: -56.05918,
     arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 4,
@@ -168,7 +169,7 @@ const globeArcs = [
     endLat: 22.3193,
     endLng: 114.1694,
     arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 4,
@@ -177,7 +178,7 @@ const globeArcs = [
     endLat: 48.8566,
     endLng: -2.3522,
     arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 5,
@@ -186,7 +187,7 @@ const globeArcs = [
     endLat: 51.5072,
     endLng: -0.1276,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 5,
@@ -195,7 +196,7 @@ const globeArcs = [
     endLat: -33.8688,
     endLng: 151.2093,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 5,
@@ -204,7 +205,7 @@ const globeArcs = [
     endLat: 48.8566,
     endLng: -2.3522,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 6,
@@ -213,7 +214,7 @@ const globeArcs = [
     endLat: 1.094136,
     endLng: -63.34546,
     arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 6,
@@ -222,7 +223,7 @@ const globeArcs = [
     endLat: 35.6762,
     endLng: 139.6503,
     arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 6,
@@ -231,7 +232,7 @@ const globeArcs = [
     endLat: 51.5072,
     endLng: -0.1276,
     arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 7,
@@ -240,7 +241,7 @@ const globeArcs = [
     endLat: -15.595412,
     endLng: -56.05918,
     arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 7,
@@ -249,7 +250,7 @@ const globeArcs = [
     endLat: 52.52,
     endLng: 13.405,
     arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 7,
@@ -258,7 +259,7 @@ const globeArcs = [
     endLat: 34.0522,
     endLng: -118.2437,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 8,
@@ -267,7 +268,7 @@ const globeArcs = [
     endLat: -33.936138,
     endLng: 18.436529,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 8,
@@ -276,7 +277,7 @@ const globeArcs = [
     endLat: 52.3676,
     endLng: 4.9041,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 8,
@@ -285,7 +286,7 @@ const globeArcs = [
     endLat: 40.7128,
     endLng: -74.006,
     arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 9,
@@ -294,7 +295,7 @@ const globeArcs = [
     endLat: 34.0522,
     endLng: -118.2437,
     arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
   {
     order: 9,
@@ -303,7 +304,7 @@ const globeArcs = [
     endLat: -22.9068,
     endLng: -43.1729,
     arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[1],
   },
   {
     order: 9,
@@ -312,7 +313,7 @@ const globeArcs = [
     endLat: -34.6037,
     endLng: -58.3816,
     arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[2],
   },
   {
     order: 10,
@@ -321,7 +322,7 @@ const globeArcs = [
     endLat: 28.6139,
     endLng: 77.209,
     arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
+    color: colors[0],
   },
 ];
 
@@ -404,12 +405,45 @@ const capabilitiesCards = [
   },
 ];
 
+// Deterministic "floating particles" (no Math.random in render → no hydration issues)
+const SERVICE_PARTICLES = Array.from({ length: 30 }, (_, i) => ({
+  top: `${(i * 37) % 100}%`,
+  left: `${(i * 61) % 100}%`,
+  delay: `${(i % 7) * 0.35}s`,
+  duration: `${4 + (i % 6)}s`,
+}));
+
+const FOOTER_PARTICLES = Array.from({ length: 45 }, (_, i) => ({
+  top: `${(i * 23) % 100}%`,
+  left: `${(i * 47) % 100}%`,
+  delay: `${(i % 9) * 0.3}s`,
+  duration: `${5 + (i % 7)}s`,
+}));
+
 const Page: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const heroOverlayRef = useRef<HTMLDivElement | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
+  const [enableScrollFx, setEnableScrollFx] = useState(false);
 
+  // Decide when to enable animations (desktop only)
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      // change 1024 to 768 if you want tablet to have no animations too
+      const shouldEnable = window.innerWidth >= 1024;
+      setEnableScrollFx(shouldEnable);
+    };
+
+    handleResize(); // initial
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // LENIS – single instance for smooth scrolling + ScrollTrigger proxy
+  useEffect(() => {
+    if (!enableScrollFx) return;
     const lenis = new Lenis({
       lerp: 0.12,
       smoothWheel: true,
@@ -417,40 +451,61 @@ const Page: React.FC = () => {
 
     lenisRef.current = lenis;
 
-    lenis.on("scroll", ScrollTrigger.update);
+    let currentScroll = 0;
 
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+    // Keep ScrollTrigger in sync with Lenis
+    const onLenisScroll = (e: { scroll: number }) => {
+      currentScroll = e.scroll;
+      ScrollTrigger.update();
     };
-    requestAnimationFrame(raf);
 
-    return () => {
-      lenis.destroy();
-      lenisRef.current = null;
-    };
-  }, []);
+    lenis.on("scroll", onLenisScroll);
 
-  // LENIS
-  useEffect(() => {
-    const lenis = new Lenis({
-      lerp: 0.12,
-      smoothWheel: true,
+    // Tell ScrollTrigger to use Lenis' virtual scroll instead of the browser's
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value?: number) {
+        if (typeof value === "number") {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return currentScroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
     });
 
-    lenis.on("scroll", ScrollTrigger.update);
-
     const raf = (time: number) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
     };
     requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
+    // When ScrollTrigger recalculates positions, also notify Lenis
+    ScrollTrigger.addEventListener("refresh", () => {
+      lenis.resize();
+    });
+
+    // Initial sync
+    ScrollTrigger.refresh();
+
+    return () => {
+      lenis.off("scroll", onLenisScroll as any);
+      lenis.destroy();
+      lenisRef.current = null;
+      ScrollTrigger.removeEventListener("refresh", () => {
+        lenis.resize();
+      });
+    };
   }, []);
 
   // GSAP
   useEffect(() => {
+    if (!enableScrollFx) return;
     if (!containerRef.current) return;
 
     const root = containerRef.current;
@@ -466,8 +521,6 @@ const Page: React.FC = () => {
         );
         const heroImage =
           overlay.querySelector<HTMLElement>("[data-hero-image]");
-
-        gsap.set(overlay, { y: "100%" });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -514,7 +567,6 @@ const Page: React.FC = () => {
           );
         }
       }
-
       // GENERIC PINNED SECTIONS
       const pinnedSections =
         gsap.utils.toArray<HTMLElement>("section[data-pin]");
@@ -677,7 +729,7 @@ const Page: React.FC = () => {
         }
       }
 
-      // OFFSEC / CISCO SECTION
+      // OFFSEC / CISO SECTION
       const offsecSection = root.querySelector<HTMLElement>("[data-offsec]");
 
       if (offsecSection) {
@@ -1075,20 +1127,16 @@ const Page: React.FC = () => {
 
         counters.forEach((counter) => {
           const target = Number(counter.getAttribute("data-counter"));
-          gsap.fromTo(
-            counter,
-            { innerText: 0 },
-            {
-              innerText: target,
-              duration: 2.5,
-              ease: "power1.out",
-              snap: { innerText: 1 },
-              scrollTrigger: {
-                trigger: worldSection,
-                start: "top 80%",
-              },
-            }
-          );
+          gsap.fromTo(counter, { innerText: 0 }, {
+            innerText: target,
+            duration: 2.5,
+            ease: "power1.out",
+            snap: { innerText: 1 },
+            scrollTrigger: {
+              trigger: worldSection,
+              start: "top 80%",
+            },
+          } as any);
         });
 
         const footer = root.querySelector<HTMLElement>("[data-footer]");
@@ -1211,12 +1259,11 @@ const Page: React.FC = () => {
 
     if (lenisRef.current) {
       lenisRef.current.scrollTo(top, {
-        offset: -80, // header height
+        offset: -80,
         duration: 1.3,
         easing: (x: number) => 1 - Math.pow(1 - x, 3),
       });
     } else {
-      // Fallback if Lenis not ready
       window.scrollTo({ top: top - 80, behavior: "smooth" });
     }
   };
@@ -1228,11 +1275,11 @@ const Page: React.FC = () => {
     >
       <script
         type="application/ld+json"
-        // JSON.stringify + no indentation to keep it small
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organizationJsonLd),
         }}
       />
+
       {/* HEADER */}
       <header
         data-header
@@ -1260,27 +1307,25 @@ const Page: React.FC = () => {
           <Button
             onClick={() => scrollToSection("contact")}
             className="
-    relative overflow-hidden
-    px-6 py-3 rounded-xl font-semibold
-    text-black
-    bg-gradient-to-br from-[#00ff9d] via-[#00e676] to-[#00c853]
-    shadow-[0_0_12px_#00ff9d,0_0_24px_#00ff9d]
-    hover:shadow-[0_0_20px_#00ff9d,0_0_40px_#00ff9d]
-    transition-all duration-300
-  "
+              relative overflow-hidden
+              px-6 py-3 rounded-xl font-semibold
+              text-black
+              bg-gradient-to-br from-[#00ff9d] via-[#00e676] to-[#00c853]
+              shadow-[0_0_12px_#00ff9d,0_0_24px_#00ff9d]
+              hover:shadow-[0_0_20px_#00ff9d,0_0_40px_#00ff9d]
+              transition-all duration-300
+            "
           >
-            {/* Neon Circuit Overlay */}
             <span
               className="
-      pointer-events-none absolute inset-0 opacity-20
-      bg-[radial-gradient(circle_at_10%_10%,#00ff9d_0%,transparent_60%),
-          linear-gradient(120deg,transparent_0%,#00ff9d_8%,transparent_16%),
-          linear-gradient(300deg,transparent_0%,#00ff9d_10%,transparent_20%)]
-      bg-[length:200%_200%]
-      animate-[pulseCircuit_6s_linear_infinite]
-    "
+                pointer-events-none absolute inset-0 opacity-20
+                bg-[radial-gradient(circle_at_10%_10%,#00ff9d_0%,transparent_60%),
+                    linear-gradient(120deg,transparent_0%,#00ff9d_8%,transparent_16%),
+                    linear-gradient(300deg,transparent_0%,#00ff9d_10%,transparent_20%)]
+                bg-[length:200%_200%]
+                animate-[pulseCircuit_6s_linear_infinite]
+              "
             />
-
             <FormattedMessage id="nav.get_in_touch" />
           </Button>
         </nav>
@@ -1324,7 +1369,7 @@ const Page: React.FC = () => {
               onClick={() => {
                 scrollToSection(item.id.split(".")[1]);
               }}
-              className="text-3xl font-semibold bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent tracking-wide hover:scale-110 transition-transform duration-300"
+              className="text-3xl font-semibold bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent tracking-wide hover:scale-110 transition-transform duration-300 cursor-pointer"
             >
               <FormattedMessage id={item.id} />
             </p>
@@ -1333,27 +1378,25 @@ const Page: React.FC = () => {
           <Button
             onClick={() => scrollToSection("contact")}
             className="
-    relative overflow-hidden
-    px-6 py-3 rounded-xl font-semibold
-    text-black
-    bg-gradient-to-br from-[#00ff9d] via-[#00e676] to-[#00c853]
-    shadow-[0_0_12px_#00ff9d,0_0_24px_#00ff9d]
-    hover:shadow-[0_0_20px_#00ff9d,0_0_40px_#00ff9d]
-    transition-all duration-300
-  "
+              relative overflow-hidden
+              px-6 py-3 rounded-xl font-semibold
+              text-black
+              bg-gradient-to-br from-[#00ff9d] via-[#00e676] to-[#00c853]
+              shadow-[0_0_12px_#00ff9d,0_0_24px_#00ff9d]
+              hover:shadow-[0_0_20px_#00ff9d,0_0_40px_#00ff9d]
+              transition-all duration-300
+            "
           >
-            {/* Neon Circuit Overlay */}
             <span
               className="
-      pointer-events-none absolute inset-0 opacity-20
-      bg-[radial-gradient(circle_at_10%_10%,#00ff9d_0%,transparent_60%),
-          linear-gradient(120deg,transparent_0%,#00ff9d_8%,transparent_16%),
-          linear-gradient(300deg,transparent_0%,#00ff9d_10%,transparent_20%)]
-      bg-[length:200%_200%]
-      animate-[pulseCircuit_6s_linear_infinite]
-    "
+                pointer-events-none absolute inset-0 opacity-20
+                bg-[radial-gradient(circle_at_10%_10%,#00ff9d_0%,transparent_60%),
+                    linear-gradient(120deg,transparent_0%,#00ff9d_8%,transparent_16%),
+                    linear-gradient(300deg,transparent_0%,#00ff9d_10%,transparent_20%)]
+                bg-[length:200%_200%]
+                animate-[pulseCircuit_6s_linear_infinite]
+              "
             />
-
             <FormattedMessage id="nav.get_in_touch" />
           </Button>
         </div>
@@ -1382,7 +1425,7 @@ const Page: React.FC = () => {
           >
             <FormattedMessage
               id="hero.sub_title"
-              defaultMessage="Especialistas en ciberseguridad para ayudar a proteger tus activos digitales"
+              defaultMessage="Ofensiva digital para CISOs, CTOs y fundadores que necesitan ver su riesgo real antes que los atacantes."
             />
           </p>
 
@@ -1390,25 +1433,38 @@ const Page: React.FC = () => {
             variant="brand"
             size="lg"
             className="text-black font-semibold tracking-wide px-8"
+            onClick={() => scrollToSection("contact")}
           >
-            <FormattedMessage id="hero.cta" defaultMessage="Comencemos" />
+            <FormattedMessage
+              id="hero.cta"
+              defaultMessage="Hablemos de tu superficie de ataque"
+            />
           </Button>
         </div>
 
         <div
           ref={heroOverlayRef}
-          className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_10%_0%,#00ff5a_0%,#00b43d_35%,#002010_100%)] bg-[length:200%_200%] animate-[gradientShift_18s_ease_infinite] flex items-center justify-center"
+          className="
+            absolute inset-0 z-20
+            bg-[radial-gradient(circle_at_10%_0%,#00ff5a_0%,#00b43d_35%,#002010_100%)]
+            bg-[length:200%_200%]
+            animate-[gradientShift_18s_ease_infinite]
+            flex items-center justify-center
+            translate-y-full will-change-transform
+          "
         >
           <div className="max-w-5xl w-full px-6 flex items-center justify-between">
             <div className="relative w-full flex items-center justify-center">
               <div className="relative inline-block">
                 <Image
-                  src={hooded}
+                  src="/images/hooded.svg"
                   alt="N0HACKS Hooded Operator"
                   data-hero-image
-                  className="relative z-10 w-full mt-12"
-                  width={100}
-                  height={100}
+                  className="relative z-10  w-[47rem] mt-12"
+                  width={80}
+                  height={80}
+                  priority // <-- tells Next to preload on server
+                  loading="eager"
                 />
                 <div className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-[750px] h-[320px] bg-[radial-gradient(circle_at_center,rgba(0,255,90,0.5),rgba(0,120,50,0.35),transparent)] blur-3xl opacity-90" />
                 <div className="pointer-events-none absolute -bottom-16 -left-10 w-[380px] h-[260px] bg-[radial-gradient(circle_at_bottom_left,rgba(0,255,90,0.4),transparent)] blur-2xl" />
@@ -1446,7 +1502,7 @@ const Page: React.FC = () => {
             >
               <FormattedMessage
                 id="about.title"
-                defaultMessage="El equipo de profesionales que realmente quieres a tu lado."
+                defaultMessage="N0HACKS: tu unidad ofensiva de ciberseguridad, alineada con el CISO y el negocio."
               />
             </h2>
 
@@ -1578,21 +1634,27 @@ const Page: React.FC = () => {
         </div>
       </section>
 
-      {/* CISCO */}
+      {/* CISO */}
       <section
         data-pin
         data-offsec
         className="min-h-screen flex flex-col justify-center px-6 md:px-20"
       >
         <h2 data-title className="text-5xl font-semibold mb-6 tracking-wide">
-          <FormattedMessage id="cisco.title" />
+          <FormattedMessage
+            id="cisco.title"
+            defaultMessage="CISO – Chief Information Security Officer as a Service"
+          />
         </h2>
 
         <p
           data-body
           className="text-emerald-50/80 max-w-2xl mb-14 text-lg leading-relaxed"
         >
-          <FormattedMessage id="cisco.body" />
+          <FormattedMessage
+            id="cisco.body"
+            defaultMessage="N0HACKS actúa como tu CISO ofensivo: traducimos riesgo técnico a decisiones ejecutivas, priorizamos las superficies de ataque críticas y coordinamos la defensa junto a tu equipo interno."
+          />
         </p>
 
         <div className="grid md:grid-cols-3 gap-10 relative z-10">
@@ -1676,15 +1738,15 @@ const Page: React.FC = () => {
         className="relative min-h-screen flex items-center px-6 md:px-20 overflow-hidden"
       >
         <div className="pointer-events-none absolute inset-0 -z-10">
-          {[...Array(30)].map((_, i) => (
+          {SERVICE_PARTICLES.map((p, i) => (
             <div
               key={i}
               className="absolute w-1 h-1 bg-emerald-400/40 rounded-full animate-float"
               style={{
-                top: Math.random() * 100 + "%",
-                left: Math.random() * 100 + "%",
-                animationDelay: `${Math.random() * 4}s`,
-                animationDuration: `${4 + Math.random() * 6}s`,
+                top: p.top,
+                left: p.left,
+                animationDelay: p.delay,
+                animationDuration: p.duration,
               }}
             />
           ))}
@@ -1872,15 +1934,15 @@ const Page: React.FC = () => {
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 opacity-[0.15] bg-[radial-gradient(circle_at_center,#22c55e20,transparent_70%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,#00110a60,transparent)]" />
-          {[...Array(45)].map((_, i) => (
+          {FOOTER_PARTICLES.map((p, i) => (
             <div
               key={i}
               className="absolute w-[3px] h-[3px] rounded-full bg-emerald-400/40 animate-float"
               style={{
-                top: Math.random() * 100 + "%",
-                left: Math.random() * 100 + "%",
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${5 + Math.random() * 6}s`,
+                top: p.top,
+                left: p.left,
+                animationDelay: p.delay,
+                animationDuration: p.duration,
               }}
             />
           ))}
@@ -1907,16 +1969,28 @@ const Page: React.FC = () => {
               <FormattedMessage id="footer.navigation_heading" />
             </h4>
             <ul className="space-y-3 text-emerald-100/70 text-sm">
-              <li className="hover:text-emerald-300 transition-colors cursor-pointer">
+              <li
+                className="hover:text-emerald-300 transition-colors cursor-pointer"
+                onClick={() => scrollToSection("about")}
+              >
                 <FormattedMessage id="footer.navigation.about_us" />
               </li>
-              <li className="hover:text-emerald-300 transition-colors cursor-pointer">
+              <li
+                className="hover:text-emerald-300 transition-colors cursor-pointer"
+                onClick={() => scrollToSection("services")}
+              >
                 <FormattedMessage id="footer.navigation.services" />
               </li>
-              <li className="hover:text-emerald-300 transition-colors cursor-pointer">
+              <li
+                className="hover:text-emerald-300 transition-colors cursor-pointer"
+                onClick={() => scrollToSection("capabilities")}
+              >
                 <FormattedMessage id="footer.navigation.capabilities" />
               </li>
-              <li className="hover:text-emerald-300 transition-colors cursor-pointer">
+              <li
+                className="hover:text-emerald-300 transition-colors cursor-pointer"
+                onClick={() => scrollToSection("contact")}
+              >
                 <FormattedMessage id="footer.navigation.contact" />
               </li>
             </ul>
@@ -1940,14 +2014,17 @@ const Page: React.FC = () => {
               </p>
             </div>
 
-            <button className="mt-4 inline-flex items-center justify-center px-6 py-3 rounded-xl bg-emerald-400 text-black font-semibold tracking-wide hover:bg-emerald-300 transition-colors">
+            <button
+              className="mt-4 inline-flex items-center justify-center px-6 py-3 rounded-xl bg-emerald-400 text-black font-semibold tracking-wide hover:bg-emerald-300 transition-colors"
+              onClick={() => scrollToSection("contact")}
+            >
               <FormattedMessage id="footer.cta" />
             </button>
           </div>
         </div>
 
         <div className="mt-20 text-center text-xs text-emerald-100/40 tracking-wide">
-          © {new Date().getFullYear()} <FormattedMessage id="footer.brand" />.{" "}
+          © {new Date().getFullYear()} <FormattedMessage id="footer.brand" />{" "}
           <FormattedMessage id="footer.copyright" />
         </div>
       </section>
@@ -2124,7 +2201,7 @@ const CISCOCard = ({
       <span className="pointer-events-none absolute bottom-0 right-0 h-12 w-12 border-b border-r border-cyan-400/40 rounded-br-lg" />
 
       <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-cyan-400/1 blur-2xl" />
+        <div className="absolute inset-0 bg-cyan-400/10 blur-2xl" />
       </div>
 
       <div className="relative z-10 flex flex-col gap-4">
@@ -2160,33 +2237,3 @@ const SocialChip = ({ id }: { id: string }) => (
     </span>
   </div>
 );
-
-/* Optional CyberOrb if you ever use it again */
-const CyberOrb: React.FC = () => {
-  const meshRef = useRef<THREE.Mesh | null>(null);
-
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    if (!meshRef.current) return;
-    meshRef.current.rotation.y = t * 0.18;
-    meshRef.current.position.y = Math.sin(t * 0.8) * 0.3;
-  });
-
-  return (
-    <group>
-      <mesh ref={meshRef}>
-        <sphereGeometry args={[2.4, 64, 64]} />
-        <meshStandardMaterial
-          wireframe
-          metalness={0.6}
-          roughness={0.25}
-          color="#24E500"
-        />
-      </mesh>
-      <mesh>
-        <torusGeometry args={[3.2, 0.05, 16, 200]} />
-        <meshBasicMaterial color="#22c55e" transparent opacity={0.4} />
-      </mesh>
-    </group>
-  );
-};

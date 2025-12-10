@@ -13,7 +13,7 @@
   },
   "about": {
     "badge": "SOBRE NOSOTROS",
-    "title": "El equipo de profesionales que realmente quieres a tu lado.",
+    "title": "Expertos que protegen tu mundo digital — de forma incansable.",
     "body_1": "Las brechas de seguridad, el ransomware y las campañas de phishing dirigido ya no son casos aislados; son la norma. Una estrategia de defensa seria es la única forma de evitar convertirte en otro titular o nota de rescate.",
     "body_2": "N0HACKS es un equipo de especialistas en seguridad con experiencia en entornos de alto riesgo e infraestructuras complejas. Combinamos red teaming, forense digital e inteligencia estratégica en ciberseguridad para exponer rutas de ataque reales antes que los criminales. Cada proyecto se construye sobre el detalle, la verificación y una reducción clara del riesgo.",
     "bullets": {
@@ -47,18 +47,20 @@
     }
   },
   "cisco": {
-    "title": "CISCO como Servicio",
-    "body": "Arquitectura de seguridad Cisco, automatización e inteligencia gestionadas por expertos — entregadas como un servicio continuo para equipos de alto riesgo y alta velocidad.",
+    "title": "CISO como Servicio",
+    "body": "Liderazgo ejecutivo en ciberseguridad, arquitectura estratégica y supervisión avanzada de amenazas — ofrecido como un servicio continuo para organizaciones que exigen resiliencia, claridad y control.",
     "cards": {
       "card1_label": "01",
-      "card1_title": "Arquitectura de red Zero-Trust",
-      "card1_body": "Validación continua de identidad, segmentación y aplicación adaptativa en toda tu infraestructura basada en Cisco.",
+      "card1_title": "Arquitectura Zero-Trust",
+      "card1_body": "Verificación continua de identidad, segmentación granular y aplicación adaptable de políticas para usuarios, dispositivos y cargas de trabajo.",
+
       "card2_label": "02",
-      "card2_title": "Automatización y respuesta con SecureX",
-      "card2_body": "Automatización de flujos, correlación de alertas y orquestación de respuesta en tiempo real en endpoints, nube y perímetro.",
+      "card2_title": "Automatización de Seguridad y Respuesta a Incidentes",
+      "card2_body": "Automatización completa, correlación inteligente de alertas y respuesta orquestada en tiempo real en endpoints, entornos cloud e infraestructura crítica.",
+
       "card3_label": "03",
-      "card3_title": "Inteligencia adaptable de firewall",
-      "card3_body": "Ajuste de Firepower/ASA, analítica de amenazas, refinamiento de políticas y endurecimiento activo frente a vectores de ataque emergentes."
+      "card3_title": "Gobernanza y Gestión de Riesgos Basada en Amenazas",
+      "card3_body": "Evaluaciones proactivas de riesgo, alineación normativa, modelado avanzado de amenazas y optimización continua de la postura de seguridad guiada por experiencia de nivel CISO."
     }
   },
   "world": {

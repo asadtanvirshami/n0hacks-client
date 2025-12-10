@@ -163,3 +163,63 @@ body{
     background-position: 0% 0%;
   }
 }
+html {
+  height: 98%;
+}
+body {
+  background-color: #fff;
+  height: 100%;
+}
+svg.circuit-path {
+  position: fixed;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  z-index: -9;
+  opacity: 0.5;
+  height: 200%;
+  width: auto;
+}
+.path {
+  animation: draw 20s infinite;
+  animation-timing-function: linear;
+}
+.path-01 {
+  animation-delay: 0s;
+}
+.path-02 {
+  animation-delay: 1s;
+}
+.path-03 {
+  animation-delay: 2s;
+}
+.path-04 {
+  animation-delay: 3s;
+}
+.path-05 {
+  animation-delay: 4s;
+}
+
+@media screen and (min-width: 768px) {
+  svg.circuit-path {
+    height: auto;
+    width: 200%;
+  }
+}
+
+/* hero container	*/
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding-top: 25px;
+  }
+}
+
+@keyframes draw {
+  0% {
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+  }
+}

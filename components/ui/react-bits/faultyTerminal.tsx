@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
 import React, { useEffect, useRef, useMemo, useCallback } from "react";
 
@@ -443,3 +443,100 @@ export default function FaultyTerminal({
     />
   );
 }
+
+{
+  /* HERO */
+}
+//   <section
+//     data-hero
+//     className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+//   >
+//     {/* TERMINAL AS BACKGROUND */}
+//     <div className="pointer-events-none absolute inset-0 -z-10 opacity-70 mix-blend-screen">
+//       <FaultyTerminal
+//         className="w-full h-full"
+//         tint="#00ff7a" // neon green tint
+//         brightness={1.25} // slight boost
+//         scanlineIntensity={0.45}
+//         noiseAmp={1}
+//         glitchAmount={1}
+//         flickerAmount={1}
+//       />
+
+//       {/* subtle dark overlay to keep text readable */}
+//       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
+//     </div>
+
+//     {/* HERO CONTENT */}
+//     <div
+//       data-hero-content
+//       className="relative z-10 flex flex-col items-center gap-8 text-center max-w-4xl"
+//     >
+//       <h1
+//         data-title
+//         className="hero-title-3d mt-4 font-[family-name:var(--font-orbitron)] text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold tracking-[0.35em]"
+//       >
+//         <span className="hero-title-3d-main">
+//           <FormattedMessage id="hero.title" defaultMessage="N0HACKS" />
+//         </span>
+//         <span className="hero-title-3d-outline" aria-hidden="true">
+//           <FormattedMessage id="hero.title" defaultMessage="N0HACKS" />
+//         </span>
+//       </h1>
+
+//       <p
+//         data-body
+//         className="mt-6 font-[family-name:var(--font-red)] text-base sm:text-lg md:text-xl text-emerald-50/90 max-w-2xl mx-auto"
+//       >
+//         <FormattedMessage
+//           id="hero.sub_title"
+//           defaultMessage="Ofensiva digital para CISOs, CTOs y fundadores que necesitan ver su riesgo real antes que los atacantes."
+//         />
+//       </p>
+
+//       <Button
+//         variant="brand"
+//         size="lg"
+//         className="text-black font-semibold tracking-wide px-8"
+//         onClick={() => scrollToSection("contact")}
+//       >
+//         <FormattedMessage
+//           id="hero.cta"
+//           defaultMessage="Hablemos de tu superficie de ataque"
+//         />
+//       </Button>
+//     </div>
+
+//     {/* HOODED OVERLAY (unchanged, just sits above everything on scroll) */}
+//     <div
+//       ref={heroOverlayRef}
+//       className="
+//   absolute inset-0 z-20
+//   bg-[radial-gradient(circle_at_10%_0%,#00ff5a_0%,#00b43d_35%,#002010_100%)]
+//   bg-[length:200%_200%]
+//   animate-[gradientShift_18s_ease_infinite]
+//   flex items-center justify-center
+//   translate-y-full will-change-transform
+// "
+//     >
+//       <div className="max-w-5xl w-full px-6 flex items-center justify-between">
+//         <div className="relative w-full flex items-center justify-center">
+//           <div className="relative inline-block">
+//             <Image
+//               src="/images/hooded.svg"
+//               alt="N0HACKS Hooded Operator"
+//               data-hero-image
+//               className="relative z-10 w-full mt-12"
+//               width={100}
+//               height={100}
+//               priority
+//               loading="eager"
+//             />
+//             <div className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-[750px] h-[320px] bg-[radial-gradient(circle_at_center,rgba(0,255,90,0.5),rgba(0,120,50,0.35),transparent)] blur-3xl opacity-90" />
+//             <div className="pointer-events-none absolute -bottom-16 -left-10 w-[380px] h-[260px] bg-[radial-gradient(circle_at_bottom_left,rgba(0,255,90,0.4),transparent)] blur-2xl" />
+//             <div className="pointer-events-none absolute -bottom-16 -right-10 w-[380px] h-[260px] bg-[radial-gradient(circle_at_bottom_right,rgba(0,255,90,0.4),transparent)] blur-2xl" />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </section>
