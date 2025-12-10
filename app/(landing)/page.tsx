@@ -424,26 +424,11 @@ const Page: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const heroOverlayRef = useRef<HTMLDivElement | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
-  const [enableScrollFx, setEnableScrollFx] = useState(false);
-
-  // Decide when to enable animations (desktop only)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const handleResize = () => {
-      // change 1024 to 768 if you want tablet to have no animations too
-      const shouldEnable = window.innerWidth >= 1024;
-      setEnableScrollFx(shouldEnable);
-    };
-
-    handleResize(); // initial
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   // LENIS – single instance for smooth scrolling + ScrollTrigger proxy
   useEffect(() => {
-    if (!enableScrollFx) return;
+    if (window.innerWidth < 1024) return; // ❌ no Lenis on small screens
+
     const lenis = new Lenis({
       lerp: 0.12,
       smoothWheel: true,
@@ -505,7 +490,8 @@ const Page: React.FC = () => {
 
   // GSAP
   useEffect(() => {
-    if (!enableScrollFx) return;
+    if (window.innerWidth < 1024) return; // ❌ no Lenis on small screens
+
     if (!containerRef.current) return;
 
     const root = containerRef.current;
@@ -1735,7 +1721,11 @@ const Page: React.FC = () => {
       <section
         id="services"
         data-horizontal
-        className="relative min-h-screen flex items-center px-6 md:px-20 overflow-hidden"
+        className="
+    relative min-h-screen flex items-center 
+    px-6 md:px-20 
+    overflow-x-hidden md:overflow-visible
+  "
       >
         <div className="pointer-events-none absolute inset-0 -z-10">
           {SERVICE_PARTICLES.map((p, i) => (
@@ -1767,13 +1757,22 @@ const Page: React.FC = () => {
           <div className="relative mt-8">
             <div
               data-horizontal-track
-              className="flex gap-6 will-change-transform"
+              className="
+          flex gap-6 will-change-transform
+          overflow-x-auto md:overflow-visible
+          pb-4
+          -mx-6 px-6 md:mx-0 md:px-0
+          snap-x snap-mandatory
+        "
             >
               {horizontalCards.map((card, idx) => (
                 <div
                   key={idx}
                   data-horizontal-card
-                  className="min-w-[280px] md:min-w-[360px] lg:min-w-[420px]"
+                  className="
+              min-w-[280px] md:min-w-[360px] lg:min-w-[420px] 
+              snap-center
+            "
                 >
                   <ServiceCard
                     labelId={card.labelId}
