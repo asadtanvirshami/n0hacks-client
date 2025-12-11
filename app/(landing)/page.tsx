@@ -1467,15 +1467,15 @@ const Page: React.FC = () => {
       </section>
 
       {/* MOBILE HOODED SECTION */}
-      <section className="lg:hidden px-6 pb-16 flex items-center justify-center">
-        <div className="max-w-md w-full flex items-center justify-center">
+      <section className="lg:hidden pb-16 flex items-center justify-center">
+        <div className="max-w-xl w-full flex items-center justify-center">
           <div className="relative inline-block">
             <Image
               src={hooded}
               alt="N0HACKS Hooded Operator"
-              className="relative z-10 w-full max-w-xs sm:max-w-sm mt-8"
-              width={320}
-              height={320}
+              className="relative z-10 w-screen mt-8"
+              width={100}
+              height={100}
               loading="eager"
             />
             <div className="pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 w-[280px] h-[180px] bg-[radial-gradient(circle_at_center,rgba(0,255,90,0.5),rgba(0,120,50,0.35),transparent)] blur-3xl opacity-90" />
@@ -2031,6 +2031,9 @@ const Page: React.FC = () => {
               </p>
               <p className="text-emerald-300 font-semibold">
                 <FormattedMessage id="footer.contact_location" />
+              </p>
+              <p className="text-emerald-300 font-semibold">
+                <FormattedMessage id="footer.contact_location02" />
               </p>
             </div>
 
