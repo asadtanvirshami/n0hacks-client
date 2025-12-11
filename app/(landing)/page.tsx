@@ -424,6 +424,33 @@ const Page: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const heroOverlayRef = useRef<HTMLDivElement | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Animate mobile menu + burger icon whenever menuOpen changes
+  useEffect(() => {
+    const menu = document.querySelector<HTMLElement>("[data-menu]");
+    const line1 = document.querySelector<HTMLElement>("[data-line1]");
+    const line2 = document.querySelector<HTMLElement>("[data-line2]");
+    const line3 = document.querySelector<HTMLElement>("[data-line3]");
+
+    if (!menu || !line1 || !line2 || !line3) return;
+
+    gsap.to(menu, {
+      height: menuOpen ? "100vh" : "0vh",
+      duration: 0.55,
+      ease: "power3.inOut",
+    });
+
+    if (menuOpen) {
+      gsap.to(line1, { y: 6, rotate: 45, width: 22, duration: 0.3 });
+      gsap.to(line2, { autoAlpha: 0, duration: 0.3 });
+      gsap.to(line3, { y: -6, rotate: -45, width: 22, duration: 0.3 });
+    } else {
+      gsap.to(line1, { y: 0, rotate: 0, width: 20, duration: 0.3 });
+      gsap.to(line2, { autoAlpha: 1, duration: 0.3 });
+      gsap.to(line3, { y: 0, rotate: 0, width: 20, duration: 0.3 });
+    }
+  }, [menuOpen]);
 
   // LENIS – single instance for smooth scrolling + ScrollTrigger proxy
   useEffect(() => {
@@ -497,7 +524,7 @@ const Page: React.FC = () => {
     const root = containerRef.current;
 
     const ctx = gsap.context(() => {
-      // HERO PIN + OVERLAY
+      // HERO PIN + OVERLAY (desktop only)
       const hero = root.querySelector<HTMLElement>("[data-hero]");
       const overlay = heroOverlayRef.current;
 
@@ -1166,11 +1193,6 @@ const Page: React.FC = () => {
         }
 
         const header = root.querySelector<HTMLElement>("[data-header]");
-        const menu = root.querySelector<HTMLElement>("[data-menu]");
-        const trigger = root.querySelector<HTMLElement>("[data-menu-trigger]");
-        const line1 = root.querySelector<HTMLElement>("[data-line1]");
-        const line2 = root.querySelector<HTMLElement>("[data-line2]");
-        const line3 = root.querySelector<HTMLElement>("[data-line3]");
 
         if (header) {
           gsap.fromTo(
@@ -1196,30 +1218,6 @@ const Page: React.FC = () => {
                 0.4 + self.progress * 0.4
               })`;
             },
-          });
-        }
-
-        let menuOpen = false;
-
-        if (trigger && menu) {
-          trigger.addEventListener("click", () => {
-            menuOpen = !menuOpen;
-
-            gsap.to(menu, {
-              height: menuOpen ? "100vh" : "0vh",
-              duration: 0.55,
-              ease: "power3.inOut",
-            });
-
-            if (menuOpen) {
-              gsap.to(line1, { y: 6, rotate: 45, width: 22, duration: 0.3 });
-              gsap.to(line2, { autoAlpha: 0, duration: 0.3 });
-              gsap.to(line3, { y: -6, rotate: -45, width: 22, duration: 0.3 });
-            } else {
-              gsap.to(line1, { y: 0, rotate: 0, width: 20, duration: 0.3 });
-              gsap.to(line2, { autoAlpha: 1, duration: 0.3 });
-              gsap.to(line3, { y: 0, rotate: 0, width: 20, duration: 0.3 });
-            }
           });
         }
 
@@ -1318,6 +1316,7 @@ const Page: React.FC = () => {
 
         <button
           data-menu-trigger
+          onClick={() => setMenuOpen((prev) => !prev)}
           className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-lg bg-black/40 border border-emerald-400/20 backdrop-blur-md text-emerald-300 transition-all"
         >
           <div className="space-y-1.5">
@@ -1343,10 +1342,10 @@ const Page: React.FC = () => {
         <div className="absolute top-[60%] left-[-10%] w-[40vh] h-[40vh] blur-[110px] rounded-full bg-emerald-500/25 animate-pulse-slow" />
       </div>
 
-      {/* MENU */}
+      {/* MENU (mobile only) */}
       <div
         data-menu
-        className="fixed top-0 left-0 right-0 h-0 bg-[#020a08]/95 backdrop-blur-2xl border-b border-emerald-400/20 overflow-hidden z-40 transition-all duration-500"
+        className="fixed top-0 left-0 right-0 h-0 bg-[#020a08]/95 backdrop-blur-2xl border-b border-emerald-400/20 overflow-hidden z-40 transition-all duration-500 md:hidden"
       >
         <div className="flex flex-col items-center justify-center gap-10 mt-32">
           {navItems.map((item) => (
@@ -1354,6 +1353,7 @@ const Page: React.FC = () => {
               key={item.id}
               onClick={() => {
                 scrollToSection(item.id.split(".")[1]);
+                setMenuOpen(false);
               }}
               className="text-3xl font-semibold bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent tracking-wide hover:scale-110 transition-transform duration-300 cursor-pointer"
             >
@@ -1362,7 +1362,10 @@ const Page: React.FC = () => {
           ))}
           <LanguageSwitcher />
           <Button
-            onClick={() => scrollToSection("contact")}
+            onClick={() => {
+              scrollToSection("contact");
+              setMenuOpen(false);
+            }}
             className="
               relative overflow-hidden
               px-6 py-3 rounded-xl font-semibold
@@ -1428,14 +1431,16 @@ const Page: React.FC = () => {
           </Button>
         </div>
 
+        {/* Desktop overlay with hooded operator */}
         <div
           ref={heroOverlayRef}
           className="
+            hidden lg:flex
+            bg-black
             absolute inset-0 z-20
-            bg-[radial-gradient(circle_at_10%_0%,#00ff5a_0%,#00b43d_35%,#002010_100%)]
             bg-[length:200%_200%]
             animate-[gradientShift_18s_ease_infinite]
-            flex items-center justify-center
+            items-center justify-center
             translate-y-full will-change-transform
           "
         >
@@ -1443,13 +1448,13 @@ const Page: React.FC = () => {
             <div className="relative w-full flex items-center justify-center">
               <div className="relative inline-block">
                 <Image
-                  src="/images/hooded.svg"
+                  src={hooded}
                   alt="N0HACKS Hooded Operator"
                   data-hero-image
-                  className="relative z-10  w-[47rem] mt-12"
+                  className="relative z-10 w-[47rem] mt-12"
                   width={80}
                   height={80}
-                  priority // <-- tells Next to preload on server
+                  priority
                   loading="eager"
                 />
                 <div className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-[750px] h-[320px] bg-[radial-gradient(circle_at_center,rgba(0,255,90,0.5),rgba(0,120,50,0.35),transparent)] blur-3xl opacity-90" />
@@ -1457,6 +1462,23 @@ const Page: React.FC = () => {
                 <div className="pointer-events-none absolute -bottom-16 -right-10 w-[380px] h-[260px] bg-[radial-gradient(circle_at_bottom_right,rgba(0,255,90,0.4),transparent)] blur-2xl" />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MOBILE HOODED SECTION */}
+      <section className="lg:hidden px-6 pb-16 flex items-center justify-center">
+        <div className="max-w-md w-full flex items-center justify-center">
+          <div className="relative inline-block">
+            <Image
+              src={hooded}
+              alt="N0HACKS Hooded Operator"
+              className="relative z-10 w-full max-w-xs sm:max-w-sm mt-8"
+              width={320}
+              height={320}
+              loading="eager"
+            />
+            <div className="pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 w-[280px] h-[180px] bg-[radial-gradient(circle_at_center,rgba(0,255,90,0.5),rgba(0,120,50,0.35),transparent)] blur-3xl opacity-90" />
           </div>
         </div>
       </section>
@@ -1491,13 +1513,6 @@ const Page: React.FC = () => {
                 defaultMessage="N0HACKS: tu unidad ofensiva de ciberseguridad, alineada con el CISO y el negocio."
               />
             </h2>
-
-            <p
-              data-body
-              className="text-emerald-50/80 text-base md:text-lg leading-relaxed mb-6"
-            >
-              <FormattedMessage id="about.body_1" />
-            </p>
 
             <p className="text-emerald-50/70 text-sm md:text-base leading-relaxed mb-8">
               <FormattedMessage id="about.body_2" />
@@ -1709,7 +1724,13 @@ const Page: React.FC = () => {
 
         <div
           data-world-globe
-          className="relative w-full max-w-3xl h-[600px] mx-auto flex items-center justify-center transition-transform duration-700"
+          className="
+            relative w-full
+            max-w-sm sm:max-w-md md:max-w-3xl
+            h-[320px] sm:h-[420px] md:h-[600px]
+            mx-auto flex items-center justify-center
+            transition-transform duration-700
+          "
         >
           <div className="w-full h-full">
             <World globeConfig={globeConfig} data={globeArcs} />
@@ -1722,10 +1743,10 @@ const Page: React.FC = () => {
         id="services"
         data-horizontal
         className="
-    relative min-h-screen flex items-center 
-    px-6 md:px-20 
-    overflow-x-hidden md:overflow-visible
-  "
+          relative min-h-screen flex items-center 
+          px-6 md:px-20 
+          overflow-x-hidden md:overflow-visible
+        "
       >
         <div className="pointer-events-none absolute inset-0 -z-10">
           {SERVICE_PARTICLES.map((p, i) => (
@@ -1758,21 +1779,21 @@ const Page: React.FC = () => {
             <div
               data-horizontal-track
               className="
-          flex gap-6 will-change-transform
-          overflow-x-auto md:overflow-visible
-          pb-4
-          -mx-6 px-6 md:mx-0 md:px-0
-          snap-x snap-mandatory
-        "
+                flex gap-6 will-change-transform
+                overflow-x-auto md:overflow-visible
+                pb-4
+                -mx-6 px-6 md:mx-0 md:px-0
+                snap-x snap-mandatory
+              "
             >
               {horizontalCards.map((card, idx) => (
                 <div
                   key={idx}
                   data-horizontal-card
                   className="
-              min-w-[280px] md:min-w-[360px] lg:min-w-[420px] 
-              snap-center
-            "
+                    min-w-[280px] md:min-w-[360px] lg:min-w-[420px] 
+                    snap-center
+                  "
                 >
                   <ServiceCard
                     labelId={card.labelId}
@@ -2132,6 +2153,7 @@ const ServiceCard = ({
 
         <p className="text-sm text-emerald-50/75 leading-relaxed">
           <FormattedMessage id={bodyId} />
+
         </p>
 
         <div className="mt-4 h-px w-full bg-gradient-to-r from-emerald-400 via-emerald-400/0 to-transparent opacity-80 group-hover:from-emerald-300 group-hover:opacity-100 transition-all duration-500" />
