@@ -2033,6 +2033,9 @@ const Page: React.FC = () => {
                 <FormattedMessage id="footer.contact_location" />
               </p>
               <p className="text-emerald-300 font-semibold">
+                <FormattedMessage id="footer.contact_location01" />
+              </p>
+              <p className="text-emerald-300 font-semibold">
                 <FormattedMessage id="footer.contact_location02" />
               </p>
             </div>
