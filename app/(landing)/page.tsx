@@ -1252,6 +1252,28 @@ const Page: React.FC = () => {
     }
   };
 
+  // Right after the big GSAP useEffect
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Only handle small screens here
+    if (window.innerWidth >= 1024) return;
+
+    const worldSection =
+      containerRef.current.querySelector<HTMLElement>("[data-world]");
+    if (!worldSection) return;
+
+    const counters =
+      worldSection.querySelectorAll<HTMLElement>("[data-counter]");
+
+    counters.forEach((counter) => {
+      const target = Number(counter.getAttribute("data-counter"));
+      if (!Number.isNaN(target)) {
+        counter.innerText = target.toString();
+      }
+    });
+  }, []);
+
   return (
     <main
       ref={containerRef}
@@ -1903,7 +1925,6 @@ const Page: React.FC = () => {
                     <input
                       type="email"
                       className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0"
-                      placeholder="tú@empresa.com"
                     />
                   </div>
 
@@ -1914,7 +1935,6 @@ const Page: React.FC = () => {
                     <input
                       type="text"
                       className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0"
-                      placeholder="CTO en fintech, CISO, fundador…"
                     />
                   </div>
 
@@ -1925,7 +1945,6 @@ const Page: React.FC = () => {
                     <textarea
                       rows={3}
                       className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0 resize-none"
-                      placeholder="Describe brevemente tu stack, incidente o preocupación."
                     />
                   </div>
 
@@ -1980,6 +1999,9 @@ const Page: React.FC = () => {
             <div className="flex gap-4 pt-4">
               <Link href={"https://www.linkedin.com/company/n0hacks"}>
                 <SocialChip id="social.linkedin" />
+              </Link>
+              <Link href={"https://www.instagram.com/n0hacks"}>
+                <SocialChip id="instagram" />
               </Link>
             </div>
           </div>
@@ -2159,7 +2181,6 @@ const ServiceCard = ({
 
         <p className="text-sm text-emerald-50/75 leading-relaxed">
           <FormattedMessage id={bodyId} />
-
         </p>
 
         <div className="mt-4 h-px w-full bg-gradient-to-r from-emerald-400 via-emerald-400/0 to-transparent opacity-80 group-hover:from-emerald-300 group-hover:opacity-100 transition-all duration-500" />
