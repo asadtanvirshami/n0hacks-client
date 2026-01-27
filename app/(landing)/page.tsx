@@ -2075,6 +2075,9 @@ const Page: React.FC = () => {
           © {new Date().getFullYear()} <FormattedMessage id="footer.brand" />{" "}
           <FormattedMessage id="footer.copyright" />
         </div>
+        <div className="mt-20 text-center text-xs text-emerald-100/40 tracking-wide">
+          <FormattedMessage id="footer.powered" />
+        </div>
       </section>
     </main>
   );
