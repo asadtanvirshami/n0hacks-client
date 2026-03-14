@@ -1205,22 +1205,25 @@ const Page: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Section #${id} not found`);
+    return;
+  }
 
-    const top = el.getBoundingClientRect().top + window.scrollY;
+  const top = el.getBoundingClientRect().top + window.scrollY - 80;
 
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(top, {
-        offset: -80,
-        duration: 1.3,
-        easing: (x: number) => 1 - Math.pow(1 - x, 3),
-      });
-    } else {
-      window.scrollTo({ top: top - 80, behavior: "smooth" });
-    }
-  };
+  if (lenisRef.current) {
+    lenisRef.current.scrollTo(top, {
+      duration: 1.3,
+      easing: (x: number) => 1 - Math.pow(1 - x, 3),
+    });
+  } else {
+    // Fallback para móvil y cuando Lenis no está activo
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+};
 
   // Mobile counters
   useEffect(() => {
