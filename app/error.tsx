@@ -9,9 +9,9 @@ export default function Error({
 }) {
   return (
     <div>
-      <h1>Algo salió mal</h1>
-      <p>{error.message}</p>
-      <button onClick={reset}>Intentar de nuevo</button>
+      <h1>Error 404: Reality Glitch</h1>
+      <p>An unexpected error occurred. Please try again.</p>
+      <button onClick={reset}>Try Again</button>
     </div>
   )
 }

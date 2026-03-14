@@ -16,37 +16,44 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   metadataBase: new URL("https://n0hacks.com"),
   title: {
-    default: "N0HACKS | Offensive Security, Red Team & Pentesting",
-    template: "%s | N0HACKS",
+    default: "n0hacks | Offensive Security, Red Team & Pentesting",
+    template: "%s | n0hacks",
   },
   description:
-    "N0HACKS es un equipo de hacking ético, red team y pentesting ofensivo especializado en proteger startups, fintech y empresas de alto riesgo frente a ciberataques reales.",
+    "n0hacks is an ethical hacking team specializing in offensive red teaming and pentesting to protect high-risk startups, fintech, and enterprises from real cyber attacks.",
   keywords: [
-    "hacking ético",
+    "ethical hacking",
     "red team",
     "pentesting",
-    "seguridad ofensiva",
-    "ciberseguridad",
-    "N0HACKS",
-    "pruebas de intrusión",
-    "seguridad para startups",
+    "offensive security",
+    "cybersecurity",
+    "n0hacks",
+    "penetration testing",
+    "startup security",
     "fintech security",
   ],
-  authors: [{ name: "N0HACKS", url: "https://n0hacks.com" }],
+  authors: [{ name: "n0hacks Team", url: "https://n0hacks.com" }],
+  creator: "n0hacks",
+  publisher: "n0hacks",
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     type: "website",
     url: "https://n0hacks.com",
-    siteName: "N0HACKS",
-    title: "N0HACKS | Offensive Security, Red Team & Pentesting",
+    siteName: "n0hacks",
+    title: "n0hacks | Offensive Security, Red Team & Pentesting",
     description:
-      "Equipo ofensivo de ciberseguridad que piensa como el atacante para proteger tus activos críticos.",
-    locale: "es_ES",
+      "Offensive cybersecurity team that thinks like attackers to protect your critical assets.",
+    locale: "en_US",
     images: [
       {
         url: "/og/n0hacks-og.jpg", // crea este asset en /public/og/
         width: 1200,
         height: 630,
-        alt: "N0HACKS - Offensive Security & Red Team",
+        alt: "n0hacks - Offensive Security & Red Team",
       },
     ],
   },
@@ -54,14 +61,24 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@n0hacks", // si no tienes usuario, bórralo
     creator: "@n0hacks",
-    title: "N0HACKS | Offensive Security, Red Team & Pentesting",
+    title: "n0hacks | Offensive Security, Red Team & Pentesting",
     description:
-      "Red team ofensivo y pentesting para empresas que no pueden permitirse fallar en ciberseguridad.",
+      "Red team offensive and pentesting for companies that cannot afford to fail in cybersecurity.",
     images: ["/og/n0hacks-og.jpg"],
   },
   alternates: {
-    canonical: "https://n0hacks.com/",
+    canonical: 'https://n0hacks.com',
+    languages: {
+      'es': 'https://n0hacks.com',
+      'en': 'https://n0hacks.com',
+      'x-default': 'https://n0hacks.com'
+    }
   },
+};
+
+export const viewport = {
+  themeColor: '#000000',
+  colorScheme: 'dark',
 };
 
 export default function RootLayout({

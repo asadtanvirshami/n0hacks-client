@@ -57,19 +57,19 @@ const Header = () => {
           <div>
             <div className="flex h-5 items-center space-x-4 text-sm  font-[family-name:var(--font-redhat)]">
               {/* LinkedIn */}
-              <Link href={"https://www.linkedin.com/company/algorim-io/"}>
+              <Link href={"https://www.linkedin.com/company/n0hacks"}>
                 LinkedIn
               </Link>
               <Separator orientation="vertical" />
               {/* Facebook */}
               <Link
-                href={"https://www.facebook.com/profile.php?id=61568140792184#"}
+                href={""}
               >
                 Facebook
               </Link>
               {/* Instagram */}
               <Separator orientation="vertical" />
-              <Link href={"https://www.instagram.com/algorim.io/"}>
+              <Link href={"https://www.instagram.com/n0hacks/"}>
                 Instagram
               </Link>
               {/* Twitter
@@ -82,10 +82,10 @@ const Header = () => {
           <div>
             <div className="flex h-5 items-center space-x-4 text-sm  font-[family-name:var(--font-redhat)]">
               {/* Cell */}
-              <h2>+92 336 1818434</h2>
+              <h2>+34 635 110 145</h2>
               {/* Email */}
               <Separator orientation="vertical" />
-              <h2>info@algorimsoft.com</h2>
+              <h2>info@n0hacks.com</h2>
             </div>
           </div>
         </div>
