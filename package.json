@@ -80,12 +80,11 @@
     "typescript": "^5"
   },
   "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions",
-    "last 2 Edge versions",
-    "not dead",
-    "not ie 11",
-    "> 0.5%"
-  ]
+  "Chrome >= 100",
+  "Firefox >= 100",
+  "Safari >= 15",
+  "Edge >= 100",
+  "not dead",
+  "not ie 11"
+]
 }
