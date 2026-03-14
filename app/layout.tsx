@@ -89,8 +89,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={` ${redhat.variable} ${orbitron.variable} antialiased`}>
+    <html lang="es">
+      <head>
+        {/* Preconnect para fuentes de Google */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* DNS prefetch para Vercel */}
+        <link rel="dns-prefetch" href="https://www.n0hacks.com" />
+        <link
+  rel="preload"
+  href="/_next/static/css/520894bf940ceed1.css"
+  as="style"
+/>
+      </head>
+      <body className={`${redhat.variable} ${orbitron.variable} antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
