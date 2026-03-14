@@ -428,7 +428,6 @@ const Page: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [globeReady, setGlobeReady] = useState(false);
 
-  // Delay Globe init to reduce TBT — globe still renders fully after delay
   useEffect(() => {
     const timer = setTimeout(() => setGlobeReady(true), 2000);
     return () => clearTimeout(timer);
@@ -1243,32 +1242,38 @@ const Page: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-const scrollToSection = (id: string) => {
-  const el = document.getElementById(id);
-  if (!el) return;
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
 
-  // Forzar visibilidad del elemento destino antes de hacer scroll
-  gsap.set(el, { autoAlpha: 1, y: 0, scale: 1 });
+    // Force all animated children visible so pinned sections show correctly
+    gsap.set(el, { autoAlpha: 1, y: 0, scale: 1, skewX: 0 });
+    const children = el.querySelectorAll<HTMLElement>(
+      "[data-title],[data-body],[data-card],[data-contact-left],[data-contact-right],[data-contact-title],[data-contact-body],[data-about-left],[data-about-right],[data-about-bullets]"
+    );
+    gsap.set(children, { autoAlpha: 1, y: 0, x: 0, scale: 1, skewX: 0, rotateX: 0 });
 
-  // Forzar visibilidad de todos los hijos animados por GSAP
-  const animatedChildren = el.querySelectorAll<HTMLElement>(
-    "[data-title], [data-body], [data-card], [data-contact-left], [data-contact-right], [data-contact-title], [data-contact-body]"
-  );
-  gsap.set(animatedChildren, { autoAlpha: 1, y: 0, x: 0, scale: 1, skewX: 0 });
+    ScrollTrigger.refresh();
 
-  ScrollTrigger.refresh();
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
 
-  const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(top, {
+        duration: 1.3,
+        easing: (x: number) => 1 - Math.pow(1 - x, 3),
+      });
+    } else {
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
 
-  if (lenisRef.current) {
-    lenisRef.current.scrollTo(top, {
-      duration: 1.3,
-      easing: (x: number) => 1 - Math.pow(1 - x, 3),
-    });
-  } else {
-    window.scrollTo({ top, behavior: "smooth" });
-  }
-};
+  const scrollToTop = () => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { duration: 1.2, easing: (x: number) => 1 - Math.pow(1 - x, 3) });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   // Right after the big GSAP useEffect
   useEffect(() => {
@@ -1308,8 +1313,9 @@ const scrollToSection = (id: string) => {
       <header
         data-header
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#020a08]/40 border-b border-emerald-400/10 shadow-[0_0_25px_rgba(16,185,129,0.15)] flex items-center justify-between h-20 px-6 md:px-14 transition-all duration-500"
+        style={{ opacity: 1, visibility: "visible" }}
       >
-        <div className="flex items-center gap-3 cursor-pointer">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
           <h1 className="font-[family-name:var(--font-orbitron)] text-2xl tracking-[0.28em] bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent flex items-center gap-2">
             <Image src={logo} alt="N0HACKS Logo" width={30} height={30} />
             <FormattedMessage id="footer.brand" defaultMessage="N0HACKS" />
@@ -1779,14 +1785,14 @@ const scrollToSection = (id: string) => {
             {!globeReady && (
               <div className="w-full h-full flex items-center justify-center">
                 <div
-                  className="rounded-full border-2 border-emerald-400/20 border-t-emerald-400"
                   style={{
-                    width: '80px',
-                    height: '80px',
-                    animation: 'spin 1s linear infinite',
+                    width: 80, height: 80, borderRadius: "50%",
+                    border: "2px solid rgba(52,211,153,0.2)",
+                    borderTopColor: "#34d399",
+                    animation: "spin 1s linear infinite",
                   }}
                 />
-                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
               </div>
             )}
           </div>
