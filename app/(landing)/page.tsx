@@ -1243,23 +1243,32 @@ const Page: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+  // Forzar visibilidad del elemento destino antes de hacer scroll
+  gsap.set(el, { autoAlpha: 1, y: 0, scale: 1 });
 
-    ScrollTrigger.refresh();
+  // Forzar visibilidad de todos los hijos animados por GSAP
+  const animatedChildren = el.querySelectorAll<HTMLElement>(
+    "[data-title], [data-body], [data-card], [data-contact-left], [data-contact-right], [data-contact-title], [data-contact-body]"
+  );
+  gsap.set(animatedChildren, { autoAlpha: 1, y: 0, x: 0, scale: 1, skewX: 0 });
 
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(top, {
-        duration: 1.3,
-        easing: (x: number) => 1 - Math.pow(1 - x, 3),
-      });
-    } else {
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  };
+  ScrollTrigger.refresh();
+
+  const top = el.getBoundingClientRect().top + window.scrollY - 80;
+
+  if (lenisRef.current) {
+    lenisRef.current.scrollTo(top, {
+      duration: 1.3,
+      easing: (x: number) => 1 - Math.pow(1 - x, 3),
+    });
+  } else {
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+};
 
   // Right after the big GSAP useEffect
   useEffect(() => {
