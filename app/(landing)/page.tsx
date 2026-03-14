@@ -1040,22 +1040,20 @@ const Page: React.FC = () => {
         }
       }
 
-      // CONTACT — simple fade-in on scroll, no pin (so navbar navigation works)
+      // CONTACT — no pin, simple fade so navbar navigation always works
       const contactSection = root.querySelector<HTMLElement>("[data-contact]");
-
       if (contactSection) {
         gsap.fromTo(
           contactSection,
-          { autoAlpha: 0, y: 40 },
+          { autoAlpha: 0, y: 30 },
           {
-            autoAlpha: 1,
-            y: 0,
-            ease: "power3.out",
+            autoAlpha: 1, y: 0, ease: "power3.out",
             scrollTrigger: {
               trigger: contactSection,
-              start: "top 85%",
-              end: "top 40%",
-              scrub: true,
+              start: "top 90%",
+              end: "top 50%",
+              scrub: false,
+              toggleActions: "play none none none",
             },
           }
         );
@@ -1140,22 +1138,7 @@ const Page: React.FC = () => {
           );
         }
 
-        const header = root.querySelector<HTMLElement>("[data-header]");
-
-        if (header) {
-          // Header always visible — no initial hidden animation
-          ScrollTrigger.create({
-            trigger: document.documentElement,
-            start: "top top",
-            end: "+=200",
-            scrub: true,
-            onUpdate: (self) => {
-              header.style.backgroundColor = `rgba(2,10,8,${
-                0.4 + self.progress * 0.4
-              })`;
-            },
-          });
-        }
+        // Header is always visible - no GSAP animation on it
 
         ScrollTrigger.create({
           trigger: worldSection,
@@ -1173,18 +1156,29 @@ const Page: React.FC = () => {
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
-    if (!el) return;
-
-    const top = el.getBoundingClientRect().top + window.scrollY;
-
+    if (!el) {
+      console.warn("Section not found:", id);
+      return;
+    }
+    const offset = el.getBoundingClientRect().top + window.scrollY - 80;
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(top, {
-        offset: -80,
-        duration: 1.3,
+      lenisRef.current.scrollTo(offset, {
+        duration: 1.2,
         easing: (x: number) => 1 - Math.pow(1 - x, 3),
       });
     } else {
-      window.scrollTo({ top: top - 80, behavior: "smooth" });
+      window.scrollTo({ top: offset, behavior: "smooth" });
+    }
+  };
+
+  const scrollToTop = () => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, {
+        duration: 1.2,
+        easing: (x: number) => 1 - Math.pow(1 - x, 3),
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -1226,7 +1220,7 @@ const Page: React.FC = () => {
       <header
         data-header
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#020a08]/40 border-b border-emerald-400/10 shadow-[0_0_25px_rgba(16,185,129,0.15)] flex items-center justify-between h-20 px-6 md:px-14 transition-all duration-500"
-        style={{ opacity: 1, visibility: "visible" }}
+        style={{ opacity: 1, visibility: "visible", transform: "translateY(0)" }}
       >
         <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
           <h1 className="font-[family-name:var(--font-orbitron)] text-2xl tracking-[0.28em] bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent flex items-center gap-2">
@@ -1696,12 +1690,7 @@ const Page: React.FC = () => {
               <World globeConfig={globeConfig} data={globeArcs} />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
-                <div style={{
-                  width: 80, height: 80, borderRadius: "50%",
-                  border: "2px solid rgba(52,211,153,0.2)",
-                  borderTopColor: "#34d399",
-                  animation: "spin 1s linear infinite",
-                }} />
+                <div style={{width:80,height:80,borderRadius:"50%",border:"2px solid rgba(52,211,153,0.2)",borderTopColor:"#34d399",animation:"spin 1s linear infinite"}} />
                 <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
               </div>
             )}
