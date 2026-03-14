@@ -1,4 +1,4 @@
-// app/(site)/page.tsx
+// app/(landing)/page.tsx
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -426,6 +426,17 @@ const Page: React.FC = () => {
   const lenisRef = useRef<Lenis | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // ── LAZY LOAD GLOBE ──────────────────────────────────────────
+  // Delays Three.js initialization so it doesn't block the main
+  // thread during first paint — reduces TBT significantly.
+  const [globeReady, setGlobeReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setGlobeReady(true), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+  // ─────────────────────────────────────────────────────────────
+
   // Animate mobile menu + burger icon whenever menuOpen changes
   useEffect(() => {
     const menu = document.querySelector<HTMLElement>("[data-menu]");
@@ -454,7 +465,7 @@ const Page: React.FC = () => {
 
   // LENIS – single instance for smooth scrolling + ScrollTrigger proxy
   useEffect(() => {
-    if (window.innerWidth < 1024) return; // ❌ no Lenis on small screens
+    if (window.innerWidth < 1024) return;
 
     const lenis = new Lenis({
       lerp: 0.12,
@@ -465,7 +476,6 @@ const Page: React.FC = () => {
 
     let currentScroll = 0;
 
-    // Keep ScrollTrigger in sync with Lenis
     const onLenisScroll = (e: { scroll: number }) => {
       currentScroll = e.scroll;
       ScrollTrigger.update();
@@ -473,7 +483,6 @@ const Page: React.FC = () => {
 
     lenis.on("scroll", onLenisScroll);
 
-    // Tell ScrollTrigger to use Lenis' virtual scroll instead of the browser's
     ScrollTrigger.scrollerProxy(document.documentElement, {
       scrollTop(value?: number) {
         if (typeof value === "number") {
@@ -497,12 +506,10 @@ const Page: React.FC = () => {
     };
     requestAnimationFrame(raf);
 
-    // When ScrollTrigger recalculates positions, also notify Lenis
     ScrollTrigger.addEventListener("refresh", () => {
       lenis.resize();
     });
 
-    // Initial sync
     ScrollTrigger.refresh();
 
     return () => {
@@ -517,7 +524,7 @@ const Page: React.FC = () => {
 
   // GSAP
   useEffect(() => {
-    if (window.innerWidth < 1024) return; // ❌ no Lenis on small screens
+    if (window.innerWidth < 1024) return;
 
     if (!containerRef.current) return;
 
@@ -546,22 +553,12 @@ const Page: React.FC = () => {
           },
         });
 
-        tl.to(
-          overlay,
-          {
-            y: "0%",
-            ease: "none",
-          },
-          0
-        );
+        tl.to(overlay, { y: "0%", ease: "none" }, 0);
 
         if (heroContent) {
           tl.to(
             heroContent,
-            {
-              autoAlpha: 0.3,
-              ease: "power2.out",
-            },
+            { autoAlpha: 0.3, ease: "power2.out" },
             0.2
           );
         }
@@ -570,16 +567,12 @@ const Page: React.FC = () => {
           tl.fromTo(
             heroImage,
             { y: 40, scale: 1.04, autoAlpha: 0 },
-            {
-              y: 0,
-              scale: 1,
-              autoAlpha: 1,
-              ease: "power2.out",
-            },
+            { y: 0, scale: 1, autoAlpha: 1, ease: "power2.out" },
             0
           );
         }
       }
+
       // GENERIC PINNED SECTIONS
       const pinnedSections =
         gsap.utils.toArray<HTMLElement>("section[data-pin]");
@@ -714,12 +707,7 @@ const Page: React.FC = () => {
           tl.fromTo(
             bulletItems,
             { autoAlpha: 0, y: 20 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              stagger: 0.08,
-              ease: "power3.out",
-            },
+            { autoAlpha: 1, y: 0, stagger: 0.08, ease: "power3.out" },
             0.25
           );
         }
@@ -732,11 +720,7 @@ const Page: React.FC = () => {
             0.25
           ).to(
             right,
-            {
-              y: -20,
-              rotateX: 4,
-              ease: "sine.inOut",
-            },
+            { y: -20, rotateX: 4, ease: "sine.inOut" },
             0.7
           );
         }
@@ -775,12 +759,7 @@ const Page: React.FC = () => {
           tl.fromTo(
             offsecTitle,
             { autoAlpha: 0, y: 40, letterSpacing: "0.15em" },
-            {
-              autoAlpha: 1,
-              y: 0,
-              letterSpacing: "0.35em",
-              ease: "power3.out",
-            },
+            { autoAlpha: 1, y: 0, letterSpacing: "0.35em", ease: "power3.out" },
             0.05
           );
         }
@@ -1022,12 +1001,7 @@ const Page: React.FC = () => {
           tl.fromTo(
             cards,
             { autoAlpha: 0, y: 80 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              stagger: 0.12,
-              ease: "power3.out",
-            },
+            { autoAlpha: 1, y: 0, stagger: 0.12, ease: "power3.out" },
             0.2
           );
         }
@@ -1103,11 +1077,7 @@ const Page: React.FC = () => {
             0.2
           ).to(
             right,
-            {
-              y: -16,
-              rotateX: 4,
-              ease: "sine.inOut",
-            },
+            { y: -16, rotateX: 4, ease: "sine.inOut" },
             0.7
           );
         }
@@ -1252,11 +1222,9 @@ const Page: React.FC = () => {
     }
   };
 
-  // Right after the big GSAP useEffect
+  // Mobile counters
   useEffect(() => {
     if (!containerRef.current) return;
-
-    // Only handle small screens here
     if (window.innerWidth >= 1024) return;
 
     const worldSection =
@@ -1342,18 +1310,9 @@ const Page: React.FC = () => {
           className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-lg bg-black/40 border border-emerald-400/20 backdrop-blur-md text-emerald-300 transition-all"
         >
           <div className="space-y-1.5">
-            <span
-              className="block w-5 h-[2px] bg-emerald-300 transition-all"
-              data-line1
-            />
-            <span
-              className="block w-5 h-[2px] bg-emerald-300 transition-all"
-              data-line2
-            />
-            <span
-              className="block w-5 h-[2px] bg-emerald-300 transition-all"
-              data-line3
-            />
+            <span className="block w-5 h-[2px] bg-emerald-300 transition-all" data-line1 />
+            <span className="block w-5 h-[2px] bg-emerald-300 transition-all" data-line2 />
+            <span className="block w-5 h-[2px] bg-emerald-300 transition-all" data-line3 />
           </div>
         </button>
       </header>
@@ -1520,10 +1479,7 @@ const Page: React.FC = () => {
         <div className="w-full grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] items-center">
           <div data-about-left>
             <p className="text-xs uppercase tracking-[0.35em] text-emerald-400/70 mb-4">
-              <FormattedMessage
-                id="about.badge"
-                defaultMessage="SOBRE NOSOTROS"
-              />
+              <FormattedMessage id="about.badge" defaultMessage="SOBRE NOSOTROS" />
             </p>
 
             <h2
@@ -1541,22 +1497,10 @@ const Page: React.FC = () => {
             </p>
 
             <div data-about-bullets className="grid gap-4 sm:grid-cols-2">
-              <Bullet
-                titleId="about.bullets.attacker_mindset_title"
-                bodyId="about.bullets.attacker_mindset_body"
-              />
-              <Bullet
-                titleId="about.bullets.end_to_end_title"
-                bodyId="about.bullets.end_to_end_body"
-              />
-              <Bullet
-                titleId="about.bullets.detail_title"
-                bodyId="about.bullets.detail_body"
-              />
-              <Bullet
-                titleId="about.bullets.high_risk_title"
-                bodyId="about.bullets.high_risk_body"
-              />
+              <Bullet titleId="about.bullets.attacker_mindset_title" bodyId="about.bullets.attacker_mindset_body" />
+              <Bullet titleId="about.bullets.end_to_end_title" bodyId="about.bullets.end_to_end_body" />
+              <Bullet titleId="about.bullets.detail_title" bodyId="about.bullets.detail_body" />
+              <Bullet titleId="about.bullets.high_risk_title" bodyId="about.bullets.high_risk_body" />
             </div>
           </div>
 
@@ -1564,10 +1508,7 @@ const Page: React.FC = () => {
             <div className="relative overflow-hidden rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-[#020712] via-black to-[#03140d] shadow-[0_0_35px_rgba(16,185,129,0.28)] p-6">
               <div className="pointer-events-none absolute -top-10 -right-8 h-32 w-32 rounded-full bg-emerald-500/20 blur-2xl" />
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-300/80 mb-3">
-                <FormattedMessage
-                  id="about.why_badge"
-                  defaultMessage="POR QUÉ N0HACKS"
-                />
+                <FormattedMessage id="about.why_badge" defaultMessage="POR QUÉ N0HACKS" />
               </p>
               <p className="text-sm text-emerald-50/80 leading-relaxed">
                 <FormattedMessage id="about.why_body" />
@@ -1577,10 +1518,7 @@ const Page: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-emerald-400/20 bg-[#020712]/80 p-4 flex flex-col gap-1">
                 <p className="text-xs uppercase tracking-[0.25em] text-emerald-300/70">
-                  <FormattedMessage
-                    id="about.focus_badge"
-                    defaultMessage="FOCO"
-                  />
+                  <FormattedMessage id="about.focus_badge" defaultMessage="FOCO" />
                 </p>
                 <p className="text-sm text-emerald-50/90 whitespace-pre-line">
                   <FormattedMessage id="about.focus_body" />
@@ -1589,10 +1527,7 @@ const Page: React.FC = () => {
 
               <div className="rounded-2xl border border-emerald-400/20 bg-[#020712]/80 p-4 flex flex-col gap-1">
                 <p className="text-xs uppercase tracking-[0.25em] text-emerald-300/70">
-                  <FormattedMessage
-                    id="about.style_badge"
-                    defaultMessage="ESTILO"
-                  />
+                  <FormattedMessage id="about.style_badge" defaultMessage="ESTILO" />
                 </p>
                 <p className="text-sm text-emerald-50/90 whitespace-pre-line">
                   <FormattedMessage id="about.style_body" />
@@ -1670,10 +1605,7 @@ const Page: React.FC = () => {
           />
         </h2>
 
-        <p
-          data-body
-          className="text-emerald-50/80 max-w-2xl mb-14 text-lg leading-relaxed"
-        >
+        <p data-body className="text-emerald-50/80 max-w-2xl mb-14 text-lg leading-relaxed">
           <FormattedMessage
             id="cisco.body"
             defaultMessage="N0HACKS actúa como tu CISO ofensivo: traducimos riesgo técnico a decisiones ejecutivas, priorizamos las superficies de ataque críticas y coordinamos la defensa junto a tu equipo interno."
@@ -1681,21 +1613,9 @@ const Page: React.FC = () => {
         </p>
 
         <div className="grid md:grid-cols-3 gap-10 relative z-10">
-          <CISCOCard
-            labelId="cisco.cards.card1_label"
-            titleId="cisco.cards.card1_title"
-            bodyId="cisco.cards.card1_body"
-          />
-          <CISCOCard
-            labelId="cisco.cards.card2_label"
-            titleId="cisco.cards.card2_title"
-            bodyId="cisco.cards.card2_body"
-          />
-          <CISCOCard
-            labelId="cisco.cards.card3_label"
-            titleId="cisco.cards.card3_title"
-            bodyId="cisco.cards.card3_body"
-          />
+          <CISCOCard labelId="cisco.cards.card1_label" titleId="cisco.cards.card1_title" bodyId="cisco.cards.card1_body" />
+          <CISCOCard labelId="cisco.cards.card2_label" titleId="cisco.cards.card2_title" bodyId="cisco.cards.card2_body" />
+          <CISCOCard labelId="cisco.cards.card3_label" titleId="cisco.cards.card3_title" bodyId="cisco.cards.card3_body" />
         </div>
       </section>
 
@@ -1744,6 +1664,7 @@ const Page: React.FC = () => {
           </div>
         </div>
 
+        {/* ── GLOBE con lazy load ── */}
         <div
           data-world-globe
           className="
@@ -1755,7 +1676,13 @@ const Page: React.FC = () => {
           "
         >
           <div className="w-full h-full">
-            <World globeConfig={globeConfig} data={globeArcs} />
+            {globeReady ? (
+              <World globeConfig={globeConfig} data={globeArcs} />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full border-2 border-emerald-400/30 border-t-emerald-400 animate-spin" />
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -1790,10 +1717,7 @@ const Page: React.FC = () => {
             <FormattedMessage id="horizontal.title" />
           </h2>
 
-          <p
-            data-horizontal-subtitle
-            className="text-emerald-50/80 max-w-xl mb-10 text-lg"
-          >
+          <p data-horizontal-subtitle className="text-emerald-50/80 max-w-xl mb-10 text-lg">
             <FormattedMessage id="horizontal.subtitle" />
           </p>
 
@@ -1812,10 +1736,7 @@ const Page: React.FC = () => {
                 <div
                   key={idx}
                   data-horizontal-card
-                  className="
-                    min-w-[280px] md:min-w-[360px] lg:min-w-[420px] 
-                    snap-center
-                  "
+                  className="min-w-[280px] md:min-w-[360px] lg:min-w-[420px] snap-center"
                 >
                   <ServiceCard
                     labelId={card.labelId}
@@ -2011,28 +1932,16 @@ const Page: React.FC = () => {
               <FormattedMessage id="footer.navigation_heading" />
             </h4>
             <ul className="space-y-3 text-emerald-100/70 text-sm">
-              <li
-                className="hover:text-emerald-300 transition-colors cursor-pointer"
-                onClick={() => scrollToSection("about")}
-              >
+              <li className="hover:text-emerald-300 transition-colors cursor-pointer" onClick={() => scrollToSection("about")}>
                 <FormattedMessage id="footer.navigation.about_us" />
               </li>
-              <li
-                className="hover:text-emerald-300 transition-colors cursor-pointer"
-                onClick={() => scrollToSection("services")}
-              >
+              <li className="hover:text-emerald-300 transition-colors cursor-pointer" onClick={() => scrollToSection("services")}>
                 <FormattedMessage id="footer.navigation.services" />
               </li>
-              <li
-                className="hover:text-emerald-300 transition-colors cursor-pointer"
-                onClick={() => scrollToSection("capabilities")}
-              >
+              <li className="hover:text-emerald-300 transition-colors cursor-pointer" onClick={() => scrollToSection("capabilities")}>
                 <FormattedMessage id="footer.navigation.capabilities" />
               </li>
-              <li
-                className="hover:text-emerald-300 transition-colors cursor-pointer"
-                onClick={() => scrollToSection("contact")}
-              >
+              <li className="hover:text-emerald-300 transition-colors cursor-pointer" onClick={() => scrollToSection("contact")}>
                 <FormattedMessage id="footer.navigation.contact" />
               </li>
             </ul>
@@ -2170,9 +2079,7 @@ const ServiceCard = ({
 
       <div className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-emerald-300/80">
-          <span>
-            <FormattedMessage id={labelId} />
-          </span>
+          <span><FormattedMessage id={labelId} /></span>
           <span className="text-emerald-500/70">
             <FormattedMessage id="footer.brand" defaultMessage="N0HACKS" />
           </span>
@@ -2219,11 +2126,9 @@ const CapabilityCard = ({
         <p className="text-xs uppercase tracking-[0.25em] text-emerald-400/70">
           {index < 9 ? `0${index + 1}` : index + 1}
         </p>
-
         <h3 className="text-xl font-semibold text-emerald-50">
           <FormattedMessage id={titleId} />
         </h3>
-
         <p className="text-sm text-emerald-50/70 leading-relaxed">
           <FormattedMessage id={bodyId} />
         </p>
@@ -2259,11 +2164,9 @@ const CISCOCard = ({
         <p className="text-xs uppercase tracking-[0.3em] text-cyan-400/70">
           <FormattedMessage id={labelId} />
         </p>
-
         <h3 className="text-2xl font-semibold text-cyan-100 leading-snug">
           <FormattedMessage id={titleId} />
         </h3>
-
         <p className="text-sm text-cyan-100/70 leading-relaxed">
           <FormattedMessage id={bodyId} />
         </p>
@@ -2275,9 +2178,7 @@ const CISCOCard = ({
 const ContactBullet = ({ id }: { id: string }) => (
   <li className="flex items-start gap-3">
     <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(34,197,94,0.9)]" />
-    <span>
-      <FormattedMessage id={id} />
-    </span>
+    <span><FormattedMessage id={id} /></span>
   </li>
 );
 
