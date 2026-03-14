@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   turbopack: {},
+  experimental: {
+    optimizeCss: true,
+},
 
   async redirects() {
     return [

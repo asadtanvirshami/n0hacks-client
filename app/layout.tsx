@@ -6,11 +6,13 @@ import { LanguageProvider } from "@/hooks/language";
 const redhat = Red_Hat_Display({
   variable: "--font-red",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const orbitron = Orbitron({
   variable: "--font-orbitron",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
