@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Orbitron, Red_Hat_Display } from "next/font/google";
+import { Orbitron, Red_Hat_Display } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/hooks/language";
 
