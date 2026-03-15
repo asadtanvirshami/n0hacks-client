@@ -76,9 +76,9 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=()"
           },
           {
-            key: "Content-Security-Policy",
-            value: "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none';"
-          },
+  key: "Content-Security-Policy",
+  value: "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https:; font-src 'self' data:; frame-ancestors 'none';"
+},
         ],
       },
     ];
