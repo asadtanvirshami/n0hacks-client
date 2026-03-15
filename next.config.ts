@@ -77,7 +77,7 @@ const nextConfig: NextConfig = {
           },
           {
   key: "Content-Security-Policy",
-  value: "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https:; font-src 'self' data:; frame-ancestors 'none';"
+value: "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https:; font-src 'self' data:; worker-src blob:; frame-ancestors 'none';"
 },
         ],
       },
