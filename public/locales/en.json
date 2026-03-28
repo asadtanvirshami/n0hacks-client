@@ -162,6 +162,14 @@
     "copyright": "All rights reserved.",
     "powered": "Powered by ALGORIM"
   },
+  "trust": {
+    "badge": "ECOSYSTEM",
+    "title": "Who trusts N0HACKS",
+    "body": "Companies, institutions and organizations that have chosen to work with us.",
+    "clients_label": "Clients",
+    "partners_label": "Partners",
+    "colaboradores_label": "Collaborators"
+  },
   "social": {
     "twitter": "twitter",
     "github": "github",
