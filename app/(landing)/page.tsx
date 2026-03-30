@@ -328,10 +328,11 @@ const globeArcs = [
 ];
 
 const navItems = [
-  { id: "nav.about" },
-  { id: "nav.services" },
-  { id: "nav.capabilities" },
-  { id: "nav.contact" },
+  { id: "nav.about", target: "about" },
+  { id: "nav.services", target: "services" },
+  { id: "nav.capabilities", target: "capabilities" },
+  { id: "nav.partners", target: "trust" },
+  { id: "nav.contact", target: "contact" },
 ];
 
 const horizontalCards = [
@@ -406,14 +407,37 @@ const capabilitiesCards = [
   },
 ];
 
-const trustClients: { name: string; img: string | null }[] = [
+const trustClients: {
+  name: string;
+  img: string | null;
+  fit?: "cover" | "contain";
+}[] = [
   { name: "Ecoadvance", img: "/portfolio-n0hacks/Ecoadvance.jpeg" },
   { name: "DataHarvx", img: "/portfolio-n0hacks/DataHarvx.jpeg" },
-  { name: "TradingBacktesting", img: null },
-  { name: "Prozeus", img: "/portfolio-n0hacks/Prozeus.jpeg" },
-  { name: "Govern D'Andorra", img: "/portfolio-n0hacks/Govern%20D%27Andorra.jpeg" },
-  { name: "Algorim", img: null },
-  { name: "EPG", img: null },
+  {
+    name: "TradingBacktesting",
+    img: "/portfolio-n0hacks/tradingbacktesitng-logo.png",
+    fit: "contain",
+  },
+  {
+    name: "Prozeus",
+    img: "/portfolio-n0hacks/Prozeus.jpeg",
+    fit: "contain",
+  },
+  {
+    name: "Govern D'Andorra",
+    img: "/portfolio-n0hacks/Govern%20D%27Andorra.jpeg",
+    fit: "contain",
+  },
+  {
+    name: "Algorim",
+    img: "/portfolio-n0hacks/algorim-logo.png",
+  },
+  {
+    name: "ESG",
+    img: "/portfolio-n0hacks/esg.jpeg",
+    fit: "contain",
+  },
 ];
 
 const trustPartners: { name: string; img: string | null }[] = [
@@ -1376,7 +1400,7 @@ const Page: React.FC = () => {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => scrollToSection(item.id.split(".")[1])}
+              onClick={() => scrollToSection(item.target)}
               className="relative text-sm text-emerald-100/80 tracking-wide hover:text-emerald-300 transition-colors group"
             >
               <FormattedMessage id={item.id} />
@@ -1448,7 +1472,7 @@ const Page: React.FC = () => {
             <p
               key={item.id}
               onClick={() => {
-                scrollToSection(item.id.split(".")[1]);
+                scrollToSection(item.target);
                 setMenuOpen(false);
               }}
               className="text-3xl font-semibold bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent tracking-wide hover:scale-110 transition-transform duration-300 cursor-pointer"
@@ -1974,9 +1998,14 @@ const Page: React.FC = () => {
               </p>
               <span className="h-px flex-1 bg-gradient-to-l from-transparent to-emerald-400/30" />
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {trustClients.map((item) => (
-                <TrustCard key={item.name} name={item.name} img={item.img} />
+                <TrustCard
+                  key={item.name}
+                  name={item.name}
+                  img={item.img}
+                  fit={item.fit}
+                />
               ))}
             </div>
           </div>
@@ -1990,7 +2019,7 @@ const Page: React.FC = () => {
               </p>
               <span className="h-px flex-1 bg-gradient-to-l from-transparent to-emerald-400/30" />
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {trustPartners.map((item) => (
                 <TrustCard key={item.name} name={item.name} img={item.img} />
               ))}
@@ -2006,7 +2035,7 @@ const Page: React.FC = () => {
               </p>
               <span className="h-px flex-1 bg-gradient-to-l from-transparent to-emerald-400/30" />
             </div>
-            <div className="grid grid-cols-2 gap-5 max-w-xl mx-auto w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto w-full">
               {trustColaboradores.map((item) => (
                 <TrustCard key={item.name} name={item.name} img={item.img} />
               ))}
@@ -2448,9 +2477,11 @@ const SocialChip = ({ id }: { id: string }) => (
 const TrustCard = ({
   name,
   img,
+  fit = "cover",
 }: {
   name: string;
   img: string | null;
+  fit?: "cover" | "contain";
 }) => {
   const initials = name
     .split(/\s+/)
@@ -2461,7 +2492,7 @@ const TrustCard = ({
   return (
     <div
       data-trust-card
-      className="group relative overflow-hidden rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-[#020712] via-[#010d09] to-[#020712] shadow-[0_0_22px_rgba(16,185,129,0.10)] p-7 flex flex-col items-center gap-5 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(34,197,94,0.38)] hover:border-emerald-400/40 cursor-default"
+      className="group relative overflow-hidden rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-[#020712] via-[#010d09] to-[#020712] shadow-[0_0_22px_rgba(16,185,129,0.10)] p-5 sm:p-6 flex flex-col gap-4 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_0_40px_rgba(34,197,94,0.32)] hover:border-emerald-400/40 cursor-default"
     >
       <span className="pointer-events-none absolute top-0 left-0 w-3 h-3 border-t border-l border-emerald-400/40 rounded-tl-md" />
       <span className="pointer-events-none absolute top-0 right-0 w-3 h-3 border-t border-r border-emerald-400/40 rounded-tr-md" />
@@ -2472,23 +2503,26 @@ const TrustCard = ({
         <div className="absolute -right-6 -top-4 h-32 w-32 rounded-full bg-emerald-500/20 blur-2xl" />
       </div>
 
-      <div className="relative w-40 h-40 rounded-xl overflow-hidden bg-white/8 border border-emerald-400/15 flex items-center justify-center shrink-0">
+      <div className="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-white/[0.12] to-white/[0.04] border border-emerald-300/15 flex items-center justify-center shrink-0">
         {img ? (
           <Image
             src={img}
             alt={name}
             fill
-            className="object-contain p-3"
-            sizes="160px"
+            className={[
+              fit === "contain" ? "object-contain p-4 sm:p-5" : "object-cover",
+              "object-center transition-transform duration-500 group-hover:scale-[1.03]",
+            ].join(" ")}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <span className="text-emerald-400 font-bold text-2xl tracking-wider font-[family-name:var(--font-orbitron)]">
+          <span className="text-emerald-300 font-bold text-3xl tracking-wider font-[family-name:var(--font-orbitron)]">
             {initials}
           </span>
         )}
       </div>
 
-      <p className="relative z-10 text-sm text-emerald-50/85 text-center font-medium tracking-wide leading-tight">
+      <p className="relative z-10 text-sm text-emerald-50/90 text-center font-medium tracking-wide leading-tight min-h-10 flex items-center justify-center">
         {name}
       </p>
     </div>
