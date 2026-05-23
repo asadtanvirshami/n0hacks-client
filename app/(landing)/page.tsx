@@ -333,10 +333,11 @@ const globeArcs = [
 ];
 
 const navItems = [
-  { id: "nav.about" },
-  { id: "nav.services" },
-  { id: "nav.capabilities" },
-  { id: "nav.contact" },
+  { id: "nav.about", target: "about" },
+  { id: "nav.services", target: "services" },
+  { id: "nav.capabilities", target: "capabilities" },
+  { id: "nav.partners", target: "trust" },
+  { id: "nav.contact", target: "contact" },
 ];
 
 const horizontalCards = [
@@ -409,6 +410,52 @@ const capabilitiesCards = [
     titleId: "capabilities.cards.c9_title",
     bodyId: "capabilities.cards.c9_body",
   },
+];
+
+const trustClients: {
+  name: string;
+  img: string | null;
+  fit?: "cover" | "contain";
+}[] = [
+  { name: "Ecoadvance", img: "/portfolio-n0hacks/Ecoadvance.jpeg" },
+  { name: "DataHarvx", img: "/portfolio-n0hacks/DataHarvx.jpeg" },
+  {
+    name: "TradingBacktesting",
+    img: "/portfolio-n0hacks/tradingbacktesitng-logo.png",
+    fit: "contain",
+  },
+  {
+    name: "Prozeus",
+    img: "/portfolio-n0hacks/Prozeus.jpeg",
+    fit: "contain",
+  },
+  {
+    name: "Govern D'Andorra",
+    img: "/portfolio-n0hacks/Govern%20D%27Andorra.jpeg",
+    fit: "contain",
+  },
+  {
+    name: "Algorim",
+    img: "/portfolio-n0hacks/algorim-logo.png",
+  },
+  {
+    name: "ESG",
+    img: "/portfolio-n0hacks/esg.jpeg",
+    fit: "contain",
+  },
+];
+
+const trustPartners: { name: string; img: string | null }[] = [
+  { name: "Nuxia", img: "/portfolio-n0hacks/Nuxia.jpeg" },
+  { name: "DigitalWay", img: "/portfolio-n0hacks/DigitalWay.jpeg" },
+  { name: "Blixel", img: "/portfolio-n0hacks/Blixel.jpeg" },
+  { name: "Gesprodat", img: "/portfolio-n0hacks/Gesprodat.png" },
+  { name: "SpectraSec", img: "/portfolio-n0hacks/SpectraSec.jpeg" },
+];
+
+const trustColaboradores: { name: string; img: string | null }[] = [
+  { name: "Marina Innova Hub", img: "/portfolio-n0hacks/mihub.jpeg" },
+  { name: "ESIC", img: "/portfolio-n0hacks/ESIC.jpeg" },
 ];
 
 // Deterministic "floating particles" (no Math.random in render → no hydration issues)
@@ -1073,23 +1120,143 @@ const Page: React.FC = () => {
         }
       }
 
-      // CONTACT — no pin, simple fade so navbar navigation always works
+      // CONTACT — staggered reveal of left/right panels
       const contactSection = root.querySelector<HTMLElement>("[data-contact]");
       if (contactSection) {
-        gsap.fromTo(
+        const contactLeft =
+          contactSection.querySelector<HTMLElement>("[data-contact-left]");
+        const contactTitle =
+          contactSection.querySelector<HTMLElement>("[data-contact-title]");
+        const contactBody =
+          contactSection.querySelector<HTMLElement>("[data-contact-body]");
+        const contactRight =
+          contactSection.querySelector<HTMLElement>("[data-contact-right]");
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: contactSection,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
+
+        tl.fromTo(
           contactSection,
-          { autoAlpha: 0, y: 30 },
-          {
-            autoAlpha: 1, y: 0, ease: "power3.out",
-            scrollTrigger: {
-              trigger: contactSection,
-              start: "top 90%",
-              end: "top 50%",
-              scrub: false,
-              toggleActions: "play none none none",
-            },
-          }
+          { autoAlpha: 0 },
+          { autoAlpha: 1, duration: 0.4, ease: "power2.out" },
+          0
         );
+
+        if (contactLeft) {
+          tl.fromTo(
+            contactLeft,
+            { autoAlpha: 0, x: -60 },
+            { autoAlpha: 1, x: 0, duration: 0.9, ease: "power3.out" },
+            0.1
+          );
+        }
+
+        if (contactTitle) {
+          tl.fromTo(
+            contactTitle,
+            { autoAlpha: 0, y: 40, skewX: -6 },
+            { autoAlpha: 1, y: 0, skewX: 0, duration: 0.9, ease: "power3.out" },
+            0.15
+          );
+        }
+
+        if (contactBody) {
+          tl.fromTo(
+            contactBody,
+            { autoAlpha: 0, y: 25 },
+            { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" },
+            0.25
+          );
+        }
+
+        if (contactRight) {
+          tl.fromTo(
+            contactRight,
+            { autoAlpha: 0, x: 70, scale: 0.95 },
+            {
+              autoAlpha: 1,
+              x: 0,
+              scale: 1,
+              duration: 1,
+              ease: "power3.out",
+            },
+            0.2
+          );
+        }
+      }
+
+      // TRUST – CLIENTS · PARTNERS · COLABORADORES
+      const trustSection = root.querySelector<HTMLElement>("[data-trust]");
+      if (trustSection) {
+        const trustHeader =
+          trustSection.querySelector<HTMLElement>("[data-trust-header]");
+        const trustGroups =
+          trustSection.querySelectorAll<HTMLElement>("[data-trust-group]");
+
+        if (trustHeader) {
+          gsap.fromTo(
+            trustHeader,
+            { autoAlpha: 0, y: 30 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: trustSection,
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
+        }
+
+        trustGroups.forEach((group) => {
+          const titleEl =
+            group.querySelector<HTMLElement>("[data-trust-title]");
+          const cards =
+            group.querySelectorAll<HTMLElement>("[data-trust-card]");
+
+          if (titleEl) {
+            gsap.fromTo(
+              titleEl,
+              { autoAlpha: 0, x: -20 },
+              {
+                autoAlpha: 1,
+                x: 0,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: group,
+                  start: "top 88%",
+                  toggleActions: "play none none none",
+                },
+              }
+            );
+          }
+
+          if (cards.length) {
+            gsap.fromTo(
+              cards,
+              { autoAlpha: 0, y: 40, scale: 0.88 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                stagger: 0.08,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: group,
+                  start: "top 82%",
+                  toggleActions: "play none none none",
+                },
+              }
+            );
+          }
+        });
       }
 
       // WORLD + COUNTERS + HEADER + FOOTER
@@ -1274,7 +1441,7 @@ const Page: React.FC = () => {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => scrollToSection(item.id.split(".")[1])}
+              onClick={() => scrollToSection(item.target)}
               className="relative text-sm text-emerald-100/80 tracking-wide hover:text-emerald-300 transition-colors group"
             >
               <FormattedMessage id={item.id} />
@@ -1346,7 +1513,7 @@ const Page: React.FC = () => {
             <p
               key={item.id}
               onClick={() => {
-                scrollToSection(item.id.split(".")[1]);
+                scrollToSection(item.target);
                 setMenuOpen(false);
               }}
               className="text-3xl font-semibold bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent tracking-wide hover:scale-110 transition-transform duration-300 cursor-pointer"
@@ -1837,6 +2004,87 @@ const Page: React.FC = () => {
         </div>
       </section>
 
+      {/* TRUST – CLIENTS · PARTNERS · COLABORADORES */}
+      <section
+        id="trust"
+        data-trust
+        className="relative py-32 px-6 md:px-20"
+      >
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(ellipse_at_center,#22c55e_0%,transparent_70%)]" />
+          <div className="absolute h-px left-0 right-0 top-0 bg-gradient-to-r from-transparent via-emerald-400/20 to-transparent" />
+          <div className="absolute h-px left-0 right-0 bottom-0 bg-gradient-to-r from-transparent via-emerald-400/20 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto space-y-24">
+          {/* Section header */}
+          <div data-trust-header className="text-center space-y-3">
+            <p className="text-xs uppercase tracking-[0.35em] text-emerald-400/70">
+              <FormattedMessage id="trust.badge" />
+            </p>
+            <h2 className="text-4xl md:text-5xl font-semibold bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent">
+              <FormattedMessage id="trust.title" />
+            </h2>
+            <p className="text-emerald-50/60 max-w-xl mx-auto text-base">
+              <FormattedMessage id="trust.body" />
+            </p>
+          </div>
+
+          {/* CLIENTES */}
+          <div data-trust-group className="space-y-8">
+            <div data-trust-title className="flex items-center gap-4">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-400/30" />
+              <p className="text-xs uppercase tracking-[0.38em] text-emerald-300/80 px-2">
+                <FormattedMessage id="trust.clients_label" />
+              </p>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-emerald-400/30" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {trustClients.map((item) => (
+                <TrustCard
+                  key={item.name}
+                  name={item.name}
+                  img={item.img}
+                  fit={item.fit}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* PARTNERS */}
+          <div data-trust-group className="space-y-8">
+            <div data-trust-title className="flex items-center gap-4">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-400/30" />
+              <p className="text-xs uppercase tracking-[0.38em] text-emerald-300/80 px-2">
+                <FormattedMessage id="trust.partners_label" />
+              </p>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-emerald-400/30" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {trustPartners.map((item) => (
+                <TrustCard key={item.name} name={item.name} img={item.img} />
+              ))}
+            </div>
+          </div>
+
+          {/* COLABORADORES */}
+          <div data-trust-group className="space-y-8">
+            <div data-trust-title className="flex items-center gap-4">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-400/30" />
+              <p className="text-xs uppercase tracking-[0.38em] text-emerald-300/80 px-2">
+                <FormattedMessage id="trust.colaboradores_label" />
+              </p>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-emerald-400/30" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto w-full">
+              {trustColaboradores.map((item) => (
+                <TrustCard key={item.name} name={item.name} img={item.img} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section
         id="contact"
@@ -2296,3 +2544,58 @@ const SocialChip = ({ id }: { id: string }) => (
     </span>
   </div>
 );
+
+const TrustCard = ({
+  name,
+  img,
+  fit = "cover",
+}: {
+  name: string;
+  img: string | null;
+  fit?: "cover" | "contain";
+}) => {
+  const initials = name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+
+  return (
+    <div
+      data-trust-card
+      className="group relative overflow-hidden rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-[#020712] via-[#010d09] to-[#020712] shadow-[0_0_22px_rgba(16,185,129,0.10)] p-5 sm:p-6 flex flex-col gap-4 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_0_40px_rgba(34,197,94,0.32)] hover:border-emerald-400/40 cursor-default"
+    >
+      <span className="pointer-events-none absolute top-0 left-0 w-3 h-3 border-t border-l border-emerald-400/40 rounded-tl-md" />
+      <span className="pointer-events-none absolute top-0 right-0 w-3 h-3 border-t border-r border-emerald-400/40 rounded-tr-md" />
+      <span className="pointer-events-none absolute bottom-0 left-0 w-3 h-3 border-b border-l border-emerald-400/40 rounded-bl-md" />
+      <span className="pointer-events-none absolute bottom-0 right-0 w-3 h-3 border-b border-r border-emerald-400/40 rounded-br-md" />
+
+      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute -right-6 -top-4 h-32 w-32 rounded-full bg-emerald-500/20 blur-2xl" />
+      </div>
+
+      <div className="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-white/[0.12] to-white/[0.04] border border-emerald-300/15 flex items-center justify-center shrink-0">
+        {img ? (
+          <Image
+            src={img}
+            alt={name}
+            fill
+            className={[
+              fit === "contain" ? "object-contain p-4 sm:p-5" : "object-cover",
+              "object-center transition-transform duration-500 group-hover:scale-[1.03]",
+            ].join(" ")}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <span className="text-emerald-300 font-bold text-3xl tracking-wider font-[family-name:var(--font-orbitron)]">
+            {initials}
+          </span>
+        )}
+      </div>
+
+      <p className="relative z-10 text-sm text-emerald-50/90 text-center font-medium tracking-wide leading-tight min-h-10 flex items-center justify-center">
+        {name}
+      </p>
+    </div>
+  );
+};

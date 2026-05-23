@@ -3,6 +3,7 @@
     "about": "Sobre nosotros",
     "services": "Servicios",
     "capabilities": "Capacidades",
+    "partners": "Partners",
     "contact": "Contacto",
     "get_in_touch": "Ponte en contacto"
   },
@@ -169,6 +170,14 @@
     "partners_title": "Partners",
     "collaborators_title": "Colaboradores",
     "footer": "Más organizaciones uniéndose cada trimestre"
+  },
+  "trust": {
+    "badge": "ECOSISTEMA",
+    "title": "Quiénes confían en N0HACKS",
+    "body": "Empresas, instituciones y organizaciones que han elegido trabajar con nosotros.",
+    "clients_label": "Clientes",
+    "partners_label": "Partners",
+    "colaboradores_label": "Colaboradores"
   },
   "social": {
     "twitter": "twitter",
