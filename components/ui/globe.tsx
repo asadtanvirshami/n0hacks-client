@@ -5,6 +5,7 @@ import { Color, Scene, Fog, PerspectiveCamera, Vector3, Group } from "three";
 import { useThree, Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
+import type ThreeGlobe from "three-globe";
 
 const RING_PROPAGATION_SPEED = 3;
 const aspect = 1.2;
@@ -51,8 +52,54 @@ interface WorldProps {
   data: Position[];
 }
 
+type GlobePoint = {
+  size: number;
+  order: number;
+  color: string;
+  lat: number;
+  lng: number;
+};
+
+type CountriesLike = {
+  features: object[];
+};
+
+type ThreeGlobeLike = Pick<
+  ThreeGlobe,
+  | "globeMaterial"
+  | "hexPolygonsData"
+  | "hexPolygonResolution"
+  | "hexPolygonMargin"
+  | "showAtmosphere"
+  | "atmosphereColor"
+  | "atmosphereAltitude"
+  | "hexPolygonColor"
+  | "arcsData"
+  | "arcStartLat"
+  | "arcStartLng"
+  | "arcEndLat"
+  | "arcEndLng"
+  | "arcColor"
+  | "arcAltitude"
+  | "arcStroke"
+  | "arcDashLength"
+  | "arcDashInitialGap"
+  | "arcDashGap"
+  | "arcDashAnimateTime"
+  | "pointsData"
+  | "pointColor"
+  | "pointsMerge"
+  | "pointAltitude"
+  | "pointRadius"
+  | "ringsData"
+  | "ringColor"
+  | "ringMaxRadius"
+  | "ringPropagationSpeed"
+  | "ringRepeatPeriod"
+>;
+
 export function Globe({ globeConfig, data }: WorldProps) {
-  const globeRef = useRef<any>(null);
+  const globeRef = useRef<ThreeGlobeLike | null>(null);
   const groupRef = useRef<Group | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -124,7 +171,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     if (!globeRef.current || !isInitialized || !data) return;
 
     const arcs = data;
-    const points: any[] = [];
+    const points: GlobePoint[] = [];
 
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
@@ -156,7 +203,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     );
 
     globeRef.current
-      .hexPolygonsData((countries as any).features)
+      .hexPolygonsData((countries as CountriesLike).features)
       .hexPolygonResolution(3)
       .hexPolygonMargin(0.7)
       .showAtmosphere(defaultProps.showAtmosphere)
@@ -166,21 +213,21 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     globeRef.current
       .arcsData(data)
-      .arcStartLat((d: any) => d.startLat * 1)
-      .arcStartLng((d: any) => d.startLng * 1)
-      .arcEndLat((d: any) => d.endLat * 1)
-      .arcEndLng((d: any) => d.endLng * 1)
-      .arcColor((e: any) => e.color)
-      .arcAltitude((e: any) => e.arcAlt * 1)
+      .arcStartLat((d: Position) => d.startLat * 1)
+      .arcStartLng((d: Position) => d.startLng * 1)
+      .arcEndLat((d: Position) => d.endLat * 1)
+      .arcEndLng((d: Position) => d.endLng * 1)
+      .arcColor((e: Position) => e.color)
+      .arcAltitude((e: Position) => e.arcAlt * 1)
       .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
       .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e: any) => e.order * 1)
+      .arcDashInitialGap((e: Position) => e.order * 1)
       .arcDashGap(15)
       .arcDashAnimateTime(() => defaultProps.arcTime);
 
     globeRef.current
       .pointsData(filteredPoints)
-      .pointColor((e: any) => e.color)
+      .pointColor((e: GlobePoint) => e.color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(2);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { IntlProvider } from "react-intl";
 
 import en from "../public/locales/en.json";

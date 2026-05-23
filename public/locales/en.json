@@ -7,15 +7,15 @@
     "get_in_touch": "Get in Touch"
   },
   "hero": {
-    "title": "N0HACKS",
+    "title": "n0hacks",
     "sub_title": "Elite cyber specialists to help you secure your digital assets",
     "cta": "Let's Start"
   },
   "about": {
     "badge": "ABOUT US",
-    "title": "Experts who safeguard your digital world — relentlessly.",
+    "title": "Experts who safeguard your digital world relentlessly.",
     "body_1": "Security breaches, ransomware and targeted phishing campaigns are no longer edge cases; they’re the norm. A serious defence strategy is the only way to avoid becoming another headline or ransom note.",
-    "body_2": "N0HACKS is a team of security specialists with experience across high-stakes engagements and complex infrastructures. We combine red teaming, digital forensics and strategic cyber intelligence to expose real attack paths before criminals do. Every engagement is built around detail, verification and clear risk reduction.",
+    "body_2": "n0hacks is a team of security specialists with experience across high-stakes engagements and complex infrastructures. We combine red teaming, digital forensics and strategic cyber intelligence to expose real attack paths before criminals do. Every engagement is built around detail, verification and clear risk reduction.",
     "bullets": {
       "attacker_mindset_title": "Real attacker mindset",
       "attacker_mindset_body": "We simulate motivated adversaries, not just scanners or checklist audits.",
@@ -26,7 +26,7 @@
       "high_risk_title": "Built for high-risk teams",
       "high_risk_body": "Startups, fintech, healthcare, Web3 and any stack where failure is expensive."
     },
-    "why_badge": "WHY N0HACKS",
+    "why_badge": "WHY n0hacks",
     "why_body": "We treat every engagement as if an incident has already happened. That means realistic threat modelling, chained exploits and a clear path to hardening your environment.",
     "focus_badge": "FOCUS",
     "focus_body": "Offensive security,\n          nothing else.",
@@ -48,7 +48,7 @@
   },
   "cisco": {
     "title": "CISO as a Service",
-    "body": "Executive-level cybersecurity leadership, architecture, and threat oversight — delivered as an always-on service for organizations that demand resilience, clarity, and control.",
+    "body": "Executive-level cybersecurity leadership, architecture, and threat oversight delivered as an always-on service for organizations that demand resilience, clarity, and control.",
     "cards": {
       "card1_label": "01",
       "card1_title": "Zero-Trust Security Architecture",
@@ -65,7 +65,7 @@
   },
   "world": {
     "title": "Global Threat Activity",
-    "body": "Live visualization of global attack attempts and defensive operations powered by N0HACKS.",
+    "body": "Live visualization of global attack attempts and defensive operations powered by n0hacks.",
     "stats": {
       "attacks_detected": "Attacks Detected",
       "defences_executed": "Defences Executed"
@@ -97,7 +97,7 @@
   },
   "capabilities": {
     "title": "Offensive capabilities. End-to-end.",
-    "body": "From red teaming and fraud investigation to code audits, N0HACKS covers the full kill chain.",
+    "body": "From red teaming and fraud investigation to code audits, n0hacks covers the full kill chain.",
     "cards": {
       "c1_title": "Red Team",
       "c1_body": "Full-spectrum adversary simulations against apps, infra and people.",
@@ -122,7 +122,7 @@
   "contact": {
     "badge": "READY WHEN YOU ARE",
     "title": "Stop hoping you’re secure. Start knowing.",
-    "body": "Whether you’re reacting to a live incident or hardening before the next move, we plug directly into your team and work the problem end-to-end — from first signal to verified fix.",
+    "body": "Whether you’re reacting to a live incident or hardening before the next move, we plug directly into your team and work the problem end-to-end from first signal to verified fix.",
     "bullets": {
       "b1": "Battle-tested operators, not generic auditors.",
       "b2": "Clear priorities, realistic attack paths, zero fluff.",
@@ -130,7 +130,7 @@
     },
     "card_badge": "CONTACT",
     "card_title": "Let's map your attack surface.",
-    "card_body": "Share a few details and we’ll respond with a focused, operator-level plan — not a sales script.",
+    "card_body": "Share a few details and we’ll respond with a focused, operator-level plan not a sales script.",
     "form": {
       "email_label": "Work email",
       "email_placeholder": "you@company.com",
@@ -140,10 +140,10 @@
       "message_placeholder": "Briefly describe your stack, incident or concern.",
       "submit": "Request operator review"
     },
-    "disclaimer": "No spam. No mailing list. You get direct contact with the N0HACKS team."
+    "disclaimer": "No spam. No mailing list. You get direct contact with the n0hacks team."
   },
   "footer": {
-    "brand": "N0HACKS",
+    "brand": "n0hacks",
     "description": "Elite offensive security operators. Red teaming, intelligence, forensics and incident-driven defence for companies who cannot afford failure.",
     "navigation_heading": "Navigation",
     "navigation": {
@@ -159,12 +159,21 @@
     "contact_location01": "+971 50 697 5307 • UAE",
     "contact_location02": "+34 635 110 145 • Spain",
     "cta": "Request Operator Access",
-    "copyright": "All rights reserved.",
-    "powered": "Powered by ALGORIM"
+    "copyright": "All rights reserved."
+  },
+  "ecosystem": {
+    "badge": "ECOSYSTEM",
+    "title": "Who trust n0hacks",
+    "subtitle": "Companies, institutions and organizations that have chosen to work with us.",
+    "clients_title": "Clients",
+    "partners_title": "Partners",
+    "collaborators_title": "Collaborators",
+    "footer": "More organizations joining every quarter"
   },
   "social": {
     "twitter": "twitter",
     "github": "github",
-    "linkedin": "linkedin"
+    "linkedin": "linkedin",
+    "instagram": "instagram"
   }
 }

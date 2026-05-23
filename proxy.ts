@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function proxy(request: NextRequest) {
+export function proxy(_request: NextRequest) {
+  void _request
   const response = NextResponse.next()
 
   // Remove headers that expose internal architecture

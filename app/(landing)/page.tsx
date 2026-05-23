@@ -18,10 +18,15 @@ import LanguageSwitcher from "@/components/ui/language-switcher";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Globe dynamically imported for performance and to avoid SSR/window issues
+// Dynamically imported components for better performance
 const World = dynamic(
   () => import("@/components/ui/globe").then((m) => m.World),
   { ssr: false }
+);
+
+const EcosystemSection = dynamic(
+  () => import("@/components/sections/ecosystem").then((m) => m.EcosystemSection),
+  { ssr: true, loading: () => null }
 );
 
 const globeConfig = {
@@ -50,12 +55,12 @@ const globeConfig = {
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "N0HACKS",
+  name: "n0hacks",
   url: "https://n0hacks.com",
   logo: "https://n0hacks.com/logo.svg",
   sameAs: ["https://www.linkedin.com/company/n0hacks"],
   description:
-    "N0HACKS es una firma de hacking ético y red team enfocada en ciberseguridad ofensiva para startups, fintech y empresas de alto riesgo, alineada con CISOs y equipos ejecutivos.",
+    "n0hacks es una firma de hacking ético y red team enfocada en ciberseguridad ofensiva para startups, fintech y empresas de alto riesgo, alineada con CISOs y equipos ejecutivos.",
   address: {
     "@type": "PostalAddress",
     addressCountry: "ES",
@@ -427,6 +432,37 @@ const Page: React.FC = () => {
   const lenisRef = useRef<Lenis | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [globeReady, setGlobeReady] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    company: "",
+    message: "",
+  });
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus("loading");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setFormStatus("success");
+        setFormData({ email: "", company: "", message: "" });
+        setTimeout(() => setFormStatus("idle"), 5000);
+      } else {
+        setFormStatus("error");
+        setTimeout(() => setFormStatus("idle"), 3000);
+      }
+    } catch {
+      setFormStatus("error");
+      setTimeout(() => setFormStatus("idle"), 3000);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setGlobeReady(true), 2000);
@@ -505,20 +541,19 @@ const Page: React.FC = () => {
     requestAnimationFrame(raf);
 
     // When ScrollTrigger recalculates positions, also notify Lenis
-    ScrollTrigger.addEventListener("refresh", () => {
+    const onScrollTriggerRefresh = () => {
       lenis.resize();
-    });
+    };
+    ScrollTrigger.addEventListener("refresh", onScrollTriggerRefresh);
 
     // Initial sync
     ScrollTrigger.refresh();
 
     return () => {
-      lenis.off("scroll", onLenisScroll as any);
+      lenis.off("scroll", onLenisScroll);
       lenis.destroy();
       lenisRef.current = null;
-      ScrollTrigger.removeEventListener("refresh", () => {
-        lenis.resize();
-      });
+      ScrollTrigger.removeEventListener("refresh", onScrollTriggerRefresh);
     };
   }, []);
 
@@ -841,12 +876,12 @@ const Page: React.FC = () => {
             { scaleY: 0 },
             {
               scaleY: 1,
-              ease: "none",
+              ease: "power1.out",
+              duration: 1.2,
               scrollTrigger: {
                 trigger: timelineSection,
                 start: "top center",
-                end: "bottom center",
-                scrub: true,
+                toggleActions: "play none none none",
               },
             }
           );
@@ -875,11 +910,11 @@ const Page: React.FC = () => {
                 transformOrigin:
                   side === "left" ? "right center" : "left center",
                 ease: "power2.out",
+                duration: 0.8,
                 scrollTrigger: {
                   trigger: item,
                   start: "top 75%",
-                  end: "top 45%",
-                  scrub: true,
+                  toggleActions: "play none none none",
                 },
               }
             );
@@ -893,11 +928,11 @@ const Page: React.FC = () => {
                 autoAlpha: 1,
                 x: 0,
                 ease: "power2.out",
+                duration: 0.8,
                 scrollTrigger: {
                   trigger: item,
                   start: "top 75%",
-                  end: "top 45%",
-                  scrub: true,
+                  toggleActions: "play none none none",
                 },
               }
             );
@@ -993,8 +1028,6 @@ const Page: React.FC = () => {
           scrollTrigger: {
             trigger: capabilitiesSection,
             start: "top top",
-            end: "+=" + window.innerHeight * 2,
-            scrub: true,
             pin: true,
             pinSpacing: true,
           },
@@ -1086,7 +1119,7 @@ const Page: React.FC = () => {
 
         counters.forEach((counter) => {
           const target = Number(counter.getAttribute("data-counter"));
-          gsap.fromTo(counter, { innerText: 0 }, {
+          const tweenVars = {
             innerText: target,
             duration: 2.5,
             ease: "power1.out",
@@ -1095,7 +1128,9 @@ const Page: React.FC = () => {
               trigger: worldSection,
               start: "top 80%",
             },
-          } as any);
+          } satisfies gsap.TweenVars;
+
+          gsap.fromTo(counter, { innerText: 0 }, tweenVars);
         });
 
         const footer = root.querySelector<HTMLElement>("[data-footer]");
@@ -1106,33 +1141,33 @@ const Page: React.FC = () => {
 
           gsap.fromTo(
             footer,
-            { autoAlpha: 0, y: 80 },
+            { autoAlpha: 0, y: 60 },
             {
               autoAlpha: 1,
               y: 0,
-              ease: "power3.out",
+              ease: "power2.out",
+              duration: 0.8,
               scrollTrigger: {
                 trigger: footer,
                 start: "top 85%",
-                end: "top 40%",
-                scrub: true,
+                toggleActions: "play none none none",
               },
             }
           );
 
           gsap.fromTo(
             cols,
-            { autoAlpha: 0, y: 40 },
+            { autoAlpha: 0, y: 30 },
             {
               autoAlpha: 1,
               y: 0,
-              stagger: 0.15,
-              ease: "power3.out",
+              stagger: 0.1,
+              ease: "power2.out",
+              duration: 0.6,
               scrollTrigger: {
                 trigger: footer,
-                start: "top 80%",
-                end: "top 40%",
-                scrub: true,
+                start: "top 82%",
+                toggleActions: "play none none none",
               },
             }
           );
@@ -1216,6 +1251,12 @@ const Page: React.FC = () => {
         }}
       />
 
+      {/* Preload critical resources */}
+      <link rel="preload" as="image" href={logo.src} />
+      <link rel="preload" as="image" href={hooded.src} />
+      <link rel="prefetch" href="/portfolio-n0hacks/Ecoadvance.png" />
+      <link rel="prefetch" href="/portfolio-n0hacks/DataHarvx.png" />
+
       {/* HEADER */}
       <header
         data-header
@@ -1224,8 +1265,8 @@ const Page: React.FC = () => {
       >
         <div className="flex items-center gap-3 cursor-pointer" onClick={scrollToTop}>
           <h1 className="font-[family-name:var(--font-orbitron)] text-2xl tracking-[0.28em] bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-500 bg-clip-text text-transparent flex items-center gap-2">
-            <Image src={logo} alt="N0HACKS Logo" width={30} height={30} />
-            <FormattedMessage id="footer.brand" defaultMessage="N0HACKS" />
+            <Image src={logo} alt="n0hacks Logo" width={30} height={30} />
+            <FormattedMessage id="footer.brand" defaultMessage="n0hacks" />
           </h1>
         </div>
 
@@ -1358,7 +1399,7 @@ const Page: React.FC = () => {
             data-title
             className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold tracking-[0.35em] bg-gradient-to-r from-[#00ff5a] via-[#00992f] to-[#003d18] bg-clip-text text-transparent"
           >
-            <FormattedMessage id="hero.title" defaultMessage="N0HACKS" />
+            <FormattedMessage id="hero.title" defaultMessage="n0hacks" />
           </h1>
 
           <p
@@ -1402,7 +1443,7 @@ const Page: React.FC = () => {
               <div className="relative inline-block">
                 <Image
                   src={hooded}
-                  alt="N0HACKS Hooded Operator"
+                  alt="n0hacks Hooded Operator"
                   data-hero-image
                   className="relative z-10 w-[47rem] mt-12"
                   width={80}
@@ -1425,7 +1466,7 @@ const Page: React.FC = () => {
           <div className="relative inline-block">
             <Image
               src={hooded}
-              alt="N0HACKS Hooded Operator"
+              alt="n0hacks Hooded Operator"
               className="relative z-10 w-screen mt-8"
               width={100}
               height={100}
@@ -1463,7 +1504,7 @@ const Page: React.FC = () => {
             >
               <FormattedMessage
                 id="about.title"
-                defaultMessage="N0HACKS: tu unidad ofensiva de ciberseguridad, alineada con el CISO y el negocio."
+                defaultMessage="n0hacks: tu unidad ofensiva de ciberseguridad, alineada con el CISO y el negocio."
               />
             </h2>
 
@@ -1497,7 +1538,7 @@ const Page: React.FC = () => {
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-300/80 mb-3">
                 <FormattedMessage
                   id="about.why_badge"
-                  defaultMessage="POR QUÉ N0HACKS"
+                  defaultMessage="POR QUÉ n0hacks"
                 />
               </p>
               <p className="text-sm text-emerald-50/80 leading-relaxed">
@@ -1607,7 +1648,7 @@ const Page: React.FC = () => {
         >
           <FormattedMessage
             id="cisco.body"
-            defaultMessage="N0HACKS actúa como tu CISO ofensivo: traducimos riesgo técnico a decisiones ejecutivas, priorizamos las superficies de ataque críticas y coordinamos la defensa junto a tu equipo interno."
+            defaultMessage="n0hacks actúa como tu CISO ofensivo: traducimos riesgo técnico a decisiones ejecutivas, priorizamos las superficies de ataque críticas y coordinamos la defensa junto a tu equipo interno."
           />
         </p>
 
@@ -1854,14 +1895,20 @@ const Page: React.FC = () => {
                   </p>
                 </div>
 
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleFormSubmit}>
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-[0.2em] text-emerald-300/80">
                       <FormattedMessage id="contact.form.email_label" />
                     </label>
                     <input
                       type="email"
-                      className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      disabled={formStatus === "loading"}
+                      className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0 disabled:opacity-50"
                     />
                   </div>
 
@@ -1871,7 +1918,13 @@ const Page: React.FC = () => {
                     </label>
                     <input
                       type="text"
-                      className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0"
+                      required
+                      value={formData.company}
+                      onChange={(e) =>
+                        setFormData({ ...formData, company: e.target.value })
+                      }
+                      disabled={formStatus === "loading"}
+                      className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0 disabled:opacity-50"
                     />
                   </div>
 
@@ -1881,16 +1934,34 @@ const Page: React.FC = () => {
                     </label>
                     <textarea
                       rows={3}
-                      className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0 resize-none"
+                      required
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      disabled={formStatus === "loading"}
+                      className="w-full rounded-lg bg-black/40 border border-emerald-500/30 px-3 py-2 text-sm text-emerald-50 outline-none focus:border-emerald-400 focus:ring-0 resize-none disabled:opacity-50"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="mt-2 inline-flex items-center justify-center w-full rounded-xl bg-emerald-400 text-black text-sm font-semibold px-4 py-2.5 tracking-wide hover:bg-emerald-300 transition-colors"
+                    disabled={formStatus === "loading"}
+                    className="mt-2 inline-flex items-center justify-center w-full rounded-xl bg-emerald-400 text-black text-sm font-semibold px-4 py-2.5 tracking-wide hover:bg-emerald-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <FormattedMessage id="contact.form.submit" />
+                    {formStatus === "loading" ? "Enviando..." : <FormattedMessage id="contact.form.submit" />}
                   </button>
+
+                  {formStatus === "success" && (
+                    <div className="text-xs text-center p-3 rounded bg-emerald-500/20 text-emerald-300">
+                      ✓ Lead recibido! Nos contactaremos pronto.
+                    </div>
+                  )}
+                  {formStatus === "error" && (
+                    <div className="text-xs text-center p-3 rounded bg-red-500/20 text-red-300">
+                      Error enviando. Intenta de nuevo.
+                    </div>
+                  )}
                 </form>
 
                 <p className="text-[11px] text-emerald-100/50">
@@ -1901,6 +1972,9 @@ const Page: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* ECOSYSTEM */}
+      <EcosystemSection />
 
       {/* FOOTER */}
       <section
@@ -1938,7 +2012,7 @@ const Page: React.FC = () => {
                 <SocialChip id="social.linkedin" />
               </Link>
               <Link href={"https://www.instagram.com/n0hacks"}>
-                <SocialChip id="instagram" />
+                <SocialChip id="social.instagram" />
               </Link>
             </div>
           </div>
@@ -2011,9 +2085,6 @@ const Page: React.FC = () => {
         <div className="mt-20 text-center text-xs text-emerald-100/40 tracking-wide">
           © {new Date().getFullYear()} <FormattedMessage id="footer.brand" />{" "}
           <FormattedMessage id="footer.copyright" />
-        </div>
-        <div className="mt-20 text-center text-xs text-emerald-100/40 tracking-wide">
-          <FormattedMessage id="footer.powered" />
         </div>
       </section>
     </main>
@@ -2111,7 +2182,7 @@ const ServiceCard = ({
             <FormattedMessage id={labelId} />
           </span>
           <span className="text-emerald-500/70">
-            <FormattedMessage id="footer.brand" defaultMessage="N0HACKS" />
+            <FormattedMessage id="footer.brand" defaultMessage="n0hacks" />
           </span>
         </div>
 

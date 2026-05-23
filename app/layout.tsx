@@ -96,11 +96,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* DNS prefetch para Vercel */}
         <link rel="dns-prefetch" href="https://www.n0hacks.com" />
-        <link
-  rel="preload"
-  href="/_next/static/css/520894bf940ceed1.css"
-  as="style"
-/>
       </head>
       <body className={`${redhat.variable} ${orbitron.variable} antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
