@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Orbitron, Red_Hat_Display } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/hooks/language";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const redhat = Red_Hat_Display({
   variable: "--font-red",
@@ -99,6 +100,7 @@ export default function RootLayout({
       </head>
       <body className={`${redhat.variable} ${orbitron.variable} antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
