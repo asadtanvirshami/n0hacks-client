@@ -175,6 +175,8 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
+      
+      if (!arc) continue;
 
       points.push({
         size: defaultProps.pointSize,
@@ -211,7 +213,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
       .atmosphereAltitude(defaultProps.atmosphereAltitude)
       .hexPolygonColor(() => defaultProps.polygonColor);
 
-    globeRef.current
+    (globeRef.current as any)
       .arcsData(data)
       .arcStartLat((d: Position) => d.startLat * 1)
       .arcStartLng((d: Position) => d.startLng * 1)
@@ -225,14 +227,14 @@ export function Globe({ globeConfig, data }: WorldProps) {
       .arcDashGap(15)
       .arcDashAnimateTime(() => defaultProps.arcTime);
 
-    globeRef.current
+    (globeRef.current as any)
       .pointsData(filteredPoints)
       .pointColor((e: GlobePoint) => e.color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(2);
 
-    globeRef.current
+    (globeRef.current as any)
       .ringsData([])
       .ringColor(() => defaultProps.polygonColor)
       .ringMaxRadius(defaultProps.maxRings)
@@ -268,7 +270,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
       );
 
       const ringsData = data
-        .filter((d, i) => newNumbersOfRings.includes(i))
+        .filter((_, i) => newNumbersOfRings.includes(i))
         .map((d) => ({
           lat: d.startLat,
           lng: d.startLng,
@@ -342,16 +344,16 @@ export function World(props: WorldProps) {
 
 export function hexToRgb(hex: string) {
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+  hex = hex.replace(shorthandRegex, function (_, r, g, b) {
     return r + r + g + g + b + b;
   });
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
+        r: parseInt(result[1] ?? "0", 16),
+        g: parseInt(result[2] ?? "0", 16),
+        b: parseInt(result[3] ?? "0", 16),
       }
     : null;
 }

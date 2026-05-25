@@ -75,7 +75,7 @@ const organizationJsonLd = {
   ],
 };
 
-const colors = ["#22c55e", "#ef4444", "#3b82f6"];
+const colors = ["#22c55e", "#ef4444", "#3b82f6"] as const;
 
 const globeArcs = [
   {
@@ -410,52 +410,6 @@ const capabilitiesCards = [
     titleId: "capabilities.cards.c9_title",
     bodyId: "capabilities.cards.c9_body",
   },
-];
-
-const trustClients: {
-  name: string;
-  img: string | null;
-  fit?: "cover" | "contain";
-}[] = [
-  { name: "Ecoadvance", img: "/portfolio-n0hacks/Ecoadvance.jpeg" },
-  { name: "DataHarvx", img: "/portfolio-n0hacks/DataHarvx.jpeg" },
-  {
-    name: "TradingBacktesting",
-    img: "/portfolio-n0hacks/tradingbacktesitng-logo.png",
-    fit: "contain",
-  },
-  {
-    name: "Prozeus",
-    img: "/portfolio-n0hacks/Prozeus.jpeg",
-    fit: "contain",
-  },
-  {
-    name: "Govern D'Andorra",
-    img: "/portfolio-n0hacks/Govern%20D%27Andorra.jpeg",
-    fit: "contain",
-  },
-  {
-    name: "Algorim",
-    img: "/portfolio-n0hacks/algorim-logo.png",
-  },
-  {
-    name: "ESG",
-    img: "/portfolio-n0hacks/esg.jpeg",
-    fit: "contain",
-  },
-];
-
-const trustPartners: { name: string; img: string | null }[] = [
-  { name: "Nuxia", img: "/portfolio-n0hacks/Nuxia.jpeg" },
-  { name: "DigitalWay", img: "/portfolio-n0hacks/DigitalWay.jpeg" },
-  { name: "Blixel", img: "/portfolio-n0hacks/Blixel.jpeg" },
-  { name: "Gesprodat", img: "/portfolio-n0hacks/Gesprodat.png" },
-  { name: "SpectraSec", img: "/portfolio-n0hacks/SpectraSec.jpeg" },
-];
-
-const trustColaboradores: { name: string; img: string | null }[] = [
-  { name: "Marina Innova Hub", img: "/portfolio-n0hacks/mihub.jpeg" },
-  { name: "ESIC", img: "/portfolio-n0hacks/ESIC.jpeg" },
 ];
 
 // Deterministic "floating particles" (no Math.random in render → no hydration issues)
@@ -2395,57 +2349,3 @@ const SocialChip = ({ id }: { id: string }) => (
   </div>
 );
 
-const TrustCard = ({
-  name,
-  img,
-  fit = "cover",
-}: {
-  name: string;
-  img: string | null;
-  fit?: "cover" | "contain";
-}) => {
-  const initials = name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join("");
-
-  return (
-    <div
-      data-trust-card
-      className="group relative overflow-hidden rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-[#020712] via-[#010d09] to-[#020712] shadow-[0_0_22px_rgba(16,185,129,0.10)] p-5 sm:p-6 flex flex-col gap-4 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_0_40px_rgba(34,197,94,0.32)] hover:border-emerald-400/40 cursor-default"
-    >
-      <span className="pointer-events-none absolute top-0 left-0 w-3 h-3 border-t border-l border-emerald-400/40 rounded-tl-md" />
-      <span className="pointer-events-none absolute top-0 right-0 w-3 h-3 border-t border-r border-emerald-400/40 rounded-tr-md" />
-      <span className="pointer-events-none absolute bottom-0 left-0 w-3 h-3 border-b border-l border-emerald-400/40 rounded-bl-md" />
-      <span className="pointer-events-none absolute bottom-0 right-0 w-3 h-3 border-b border-r border-emerald-400/40 rounded-br-md" />
-
-      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute -right-6 -top-4 h-32 w-32 rounded-full bg-emerald-500/20 blur-2xl" />
-      </div>
-
-      <div className="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-white/[0.12] to-white/[0.04] border border-emerald-300/15 flex items-center justify-center shrink-0">
-        {img ? (
-          <Image
-            src={img}
-            alt={name}
-            fill
-            className={[
-              fit === "contain" ? "object-contain p-4 sm:p-5" : "object-cover",
-              "object-center transition-transform duration-500 group-hover:scale-[1.03]",
-            ].join(" ")}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          <span className="text-emerald-300 font-bold text-3xl tracking-wider font-[family-name:var(--font-orbitron)]">
-            {initials}
-          </span>
-        )}
-      </div>
-
-      <p className="relative z-10 text-sm text-emerald-50/90 text-center font-medium tracking-wide leading-tight min-h-10 flex items-center justify-center">
-        {name}
-      </p>
-    </div>
-  );
-};

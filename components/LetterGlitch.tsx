@@ -37,11 +37,11 @@ const LetterGlitch = ({
   const charHeight = 20;
 
   const getRandomChar = () => {
-    return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+    return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)] || "A";
   };
 
   const getRandomColor = () => {
-    return glitchColors[Math.floor(Math.random() * glitchColors.length)];
+    return glitchColors[Math.floor(Math.random() * glitchColors.length)] || "#000000";
   };
 
   const hexToRgb = (hex: string) => {
@@ -51,11 +51,11 @@ const LetterGlitch = ({
     });
 
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
+    return result && result.length >= 4
       ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
+          r: parseInt(result[1] ?? "0", 16),
+          g: parseInt(result[2] ?? "0", 16),
+          b: parseInt(result[3] ?? "0", 16)
         }
       : null;
   };

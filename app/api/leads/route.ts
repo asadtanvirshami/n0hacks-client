@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { LeadsFormSchema, sanitizeInput } from "@/lib/validation";
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-interface LeadData {
-  email: string;
-  company: string;
-  message: string;
-  timestamp?: string;
-}
-
-async function sendTelegramNotification(lead: LeadData) {
+/**
+ * Sends notification to Telegram
+ * Escapes markdown to prevent injection attacks
+ */
+async function sendTelegramNotification(
+  lead: z.infer<typeof LeadsFormSchema>
+): Promise<boolean> {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.warn("Telegram credentials not configured");
     return false;
@@ -18,15 +19,21 @@ async function sendTelegramNotification(lead: LeadData) {
 
   const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
+  // Escape special markdown characters
+  const escapeTelegramMarkdown = (text: string): string => {
+    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, "\\$&");
+  };
+
   const text = `
 🚨 *Nuevo Lead en n0hacks*
 
-📧 *Email:* ${lead.email}
-🏢 *Empresa/Rol:* ${lead.company}
-💬 *Mensaje:* ${lead.message}
-⏰ *Hora:* ${lead.timestamp || new Date().toLocaleString("es-ES")}
-
-[Ver dashboard](#)
+📧 *Email:* \`${escapeTelegramMarkdown(lead.email)}\`
+🏢 *Empresa:* ${escapeTelegramMarkdown(lead.company)}
+${lead.name ? `👤 *Nombre:* ${escapeTelegramMarkdown(lead.name)}` : ""}
+${lead.phone ? `📱 *Teléfono:* ${escapeTelegramMarkdown(lead.phone)}` : ""}
+${lead.serviceInterest ? `🎯 *Servicio:* ${escapeTelegramMarkdown(lead.serviceInterest)}` : ""}
+${lead.message ? `💬 *Mensaje:* ${escapeTelegramMarkdown(lead.message)}` : ""}
+⏰ *Hora:* ${new Date().toLocaleString("es-ES")}
   `.trim();
 
   try {
@@ -38,12 +45,13 @@ async function sendTelegramNotification(lead: LeadData) {
       body: JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: text,
-        parse_mode: "Markdown",
+        parse_mode: "MarkdownV2",
       }),
     });
 
     if (!response.ok) {
-      console.error("Telegram API error:", await response.text());
+      const error = await response.text();
+      console.error("Telegram API error:", error);
       return false;
     }
 
@@ -54,60 +62,103 @@ async function sendTelegramNotification(lead: LeadData) {
   }
 }
 
-export async function POST(request: NextRequest) {
+/**
+ * POST /api/leads
+ * Receives lead submissions from forms
+ * Validates input and sends notifications
+ */
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const body = await request.json();
-
-    const lead: LeadData = {
-      email: body.email?.trim(),
-      company: body.company?.trim(),
-      message: body.message?.trim(),
-      timestamp: new Date().toLocaleString("es-ES"),
-    };
-
-    // Validate required fields
-    if (!lead.email || !lead.company || !lead.message) {
+    // 1. Validate Content-Type
+    const contentType = request.headers.get("content-type");
+    if (!contentType?.includes("application/json")) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Invalid Content-Type. Expected application/json" },
         { status: 400 }
       );
     }
 
-    // Send Telegram notification
-    const notificationSent = await sendTelegramNotification(lead);
-
-    // Store lead (simple file storage for now - could be DB)
-    try {
-      const leadsFile = `${process.cwd()}/leads.json`;
-      const fs = require("fs").promises;
-
-      let leads: LeadData[] = [];
-      try {
-        const content = await fs.readFile(leadsFile, "utf-8");
-        leads = JSON.parse(content);
-      } catch {
-        leads = [];
-      }
-
-      leads.push(lead);
-      await fs.writeFile(leadsFile, JSON.stringify(leads, null, 2));
-    } catch (storageError) {
-      console.error("Error storing lead:", storageError);
+    // 2. Check request size
+    const bodySize = request.headers.get("content-length");
+    const maxBodySize = 10 * 1024; // 10KB
+    if (bodySize && parseInt(bodySize, 10) > maxBodySize) {
+      return NextResponse.json(
+        { error: "Request body too large" },
+        { status: 413 }
+      );
     }
 
+    // 3. Parse JSON
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      return NextResponse.json(
+        { error: "Invalid JSON in request body" },
+        { status: 400 }
+      );
+    }
+
+    // 4. Validate with Zod
+    const validationResult = LeadsFormSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.flatten().fieldErrors;
+      return NextResponse.json(
+        {
+          error: "Validation failed",
+          details: errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const validatedLead = validationResult.data;
+
+    // 5. Sanitize data
+    const sanitizedLead = {
+      email: sanitizeInput(validatedLead.email),
+      company: sanitizeInput(validatedLead.company),
+      name: sanitizeInput(validatedLead.name),
+      phone: validatedLead.phone ? sanitizeInput(validatedLead.phone) : undefined,
+      message: validatedLead.message ? sanitizeInput(validatedLead.message) : undefined,
+      serviceInterest: validatedLead.serviceInterest,
+    };
+
+    // 6. Send Telegram notification
+    const notificationSent = await sendTelegramNotification(sanitizedLead);
+
+    if (!notificationSent) {
+      console.error("Failed to send Telegram notification for lead:", sanitizedLead.email);
+      // Don't fail the API response, just log it
+    }
+
+    // 7. Return success
     return NextResponse.json(
       {
         success: true,
-        message: "Lead received",
-        notificationSent: notificationSent,
+        message: "Thank you for your submission. We will contact you soon.",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("API error:", error);
+    console.error("Leads API error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "An error occurred while processing your request" },
       { status: 500 }
     );
   }
 }
+
+/**
+ * GET /api/leads
+ * Method not allowed
+ */
+export async function GET(): Promise<NextResponse> {
+  return NextResponse.json(
+    { error: "Method not allowed" },
+    { status: 405 }
+  );
+}
+
