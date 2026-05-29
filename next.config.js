@@ -43,14 +43,15 @@ const nextConfig = {
           // Restrict browser features
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), usb=(), payment=(), interest-cohort=()",
+            value:
+              "accelerometer=(), autoplay=(), camera=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), usb=(), xr-spatial-tracking=(), interest-cohort=()",
           },
           // Content Security Policy
           {
             key: "Content-Security-Policy",
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://*.google-analytics.com; " +
+              "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://*.google-analytics.com; " +
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
               "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
               "img-src 'self' data: https: blob:; " +
