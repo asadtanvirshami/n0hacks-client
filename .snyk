@@ -1,9 +1,3 @@
-# Snyk configuration for OWASP scanning
+# Snyk configuration for security scanning
 version: v1.25.0
-# Severity thresholds
 severity-threshold: high
-# Ignore specific vulnerabilities (if needed)
-# ignore:
-#   SNYK-JS-LODASH-123456: '*'
-#     reason: Example reason
-#     expires: 2026-12-31
