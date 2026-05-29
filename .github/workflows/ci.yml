@@ -41,7 +41,9 @@ jobs:
     name: Optional security checks
     runs-on: ubuntu-latest
     needs: build
-    if: env.SNYK_TOKEN != ''
+    if: ${{ secrets.SNYK_TOKEN != '' }}
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -55,12 +57,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify Snyk token
+        run: |
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "SNYK_TOKEN is missing"
+            exit 1
+          fi
+          echo "SNYK_TOKEN length: ${#SNYK_TOKEN}"
+
+      - name: Authenticate Snyk CLI
+        run: |
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "SNYK_TOKEN is missing"
+            exit 1
+          fi
+          npx snyk auth "$SNYK_TOKEN"
+          npx snyk whoami
+
       - name: Run Snyk test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: npm run security:check
+        run: npx snyk test --severity-threshold=high
 
       - name: Run Snyk code analysis
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: npm run security:scan
+        run: npx snyk code test

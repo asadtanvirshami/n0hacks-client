@@ -38,13 +38,20 @@ jobs:
 
       - name: Authenticate Snyk CLI
         run: |
-          echo "$SNYK_TOKEN" | npx snyk auth
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "SNYK_TOKEN is missing"
+            exit 1
+          fi
+          echo "SNYK_TOKEN is set"
+          echo "SNYK_TOKEN length: ${#SNYK_TOKEN}"
+          npx snyk auth "$SNYK_TOKEN"
+          npx snyk whoami
 
       - name: Run Snyk security test
-        run: npm run security:check
+        run: npx snyk test --severity-threshold=high
 
       - name: Run Snyk code analysis
-        run: npm run security:scan
+        run: npx snyk code test
 
       - name: Start Next.js production server
         run: |
