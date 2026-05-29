@@ -3,6 +3,7 @@ import { Orbitron, Red_Hat_Display } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/hooks/language";
 import { Providers } from "./providers";
+import { Analytics } from "@vercel/analytics/next";
 
 const redhat = Red_Hat_Display({
   variable: "--font-red",
@@ -102,6 +103,7 @@ export default function RootLayout({
         <Providers>
           <LanguageProvider>{children}</LanguageProvider>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
