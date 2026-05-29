@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { FormattedMessage } from "@/components/ui/formatted-message";
 
 // Client logos data - using transparent PNG files
@@ -46,9 +47,11 @@ const LogoCard = ({ logo }: { logo: (typeof clients)[0] }) => (
 
       {/* Logo container with image */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[100px] gap-3">
-        <img
+        <Image
           src={logo.src}
           alt={logo.name}
+          width={160}
+          height={160}
           className="w-40 h-40 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg"
         />
         <p className="text-sm text-emerald-200/80 text-center font-medium tracking-wide">
