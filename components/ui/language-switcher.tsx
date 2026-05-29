@@ -9,14 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-
-import us_flag from "@/public/flags/us.png";
-import es_flag from "@/public/flags/sp.png";
 
 const languages = [
-  { code: "en", label: "English", flag: us_flag },
-  { code: "es", label: "Español", flag: es_flag },
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "es", label: "Español", flag: "🇪🇸" },
+  { code: "fr", label: "Français", flag: "🇫🇷" },
 ] as const;
 
 const LanguageSwitcher = () => {
@@ -40,13 +37,7 @@ const LanguageSwitcher = () => {
           "
         >
           {currentLang && (
-            <Image
-              src={currentLang.flag}
-              alt={currentLang.label}
-              width={20}
-              height={20}
-              className="rounded-sm"
-            />
+            <span className="text-xl leading-none">{currentLang.flag}</span>
           )}
           <span className="capitalize drop-shadow-sm">
             {currentLang?.label}
@@ -71,13 +62,7 @@ const LanguageSwitcher = () => {
               ${language === lang.code ? "text-[#00ff85] font-semibold" : "text-white"}
             `}
           >
-            <Image
-              src={lang.flag}
-              alt={lang.label}
-              width={20}
-              height={20}
-              className="rounded-sm"
-            />
+            <span className="text-xl leading-none">{lang.flag}</span>
             {lang.label}
           </DropdownMenuItem>
         ))}

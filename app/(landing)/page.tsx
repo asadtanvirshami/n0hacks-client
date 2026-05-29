@@ -8,13 +8,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
 import { Button } from "@/components/ui/button";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage } from "@/components/ui/formatted-message";
 import hooded from "@/public/images/hooded.svg";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import logo from "@/public/images/logo.svg";
 import Link from "next/link";
 import LanguageSwitcher from "@/components/ui/language-switcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1333,7 +1334,10 @@ const Page: React.FC = () => {
               <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-gradient-to-r from-emerald-400 to-emerald-200 transition-all duration-300 group-hover:w-full"></span>
             </button>
           ))}
-          <LanguageSwitcher />
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
           <Button
             onClick={() => scrollToSection("contact")}
             className="
@@ -1406,7 +1410,10 @@ const Page: React.FC = () => {
               <FormattedMessage id={item.id} />
             </p>
           ))}
-          <LanguageSwitcher />
+          <div className="flex flex-col items-center gap-4">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
           <Button
             onClick={() => {
               scrollToSection("contact");

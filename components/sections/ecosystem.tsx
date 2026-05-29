@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage } from "@/components/ui/formatted-message";
 
 // Client logos data - using transparent PNG files
 const clients = [

@@ -1,0 +1,68 @@
+name: Security scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security:
+    name: OWASP / Snyk security scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Snyk security test
+        run: npm run security:check
+
+      - name: Run Snyk code analysis
+        run: npm run security:scan
+
+      - name: Start Next.js production server
+        run: |
+          npm run build
+          nohup npx next start -p 3000 > /tmp/next.log 2>&1 &
+          echo $! > /tmp/next.pid
+
+      - name: Wait for app to be ready
+        run: |
+          for i in $(seq 1 20); do
+            if curl --silent --fail http://localhost:3000; then
+              echo "App is ready";
+              exit 0;
+            fi
+            sleep 2;
+          done
+          cat /tmp/next.log
+          exit 1
+
+      - name: Run OWASP ZAP baseline scan
+        run: |
+          docker run --rm --network host -v $PWD:/zap/wrk -t owasp/zap2docker-stable \
+            zap-baseline.py -t http://localhost:3000 -r /zap/wrk/owasp-zap-report.html -j -I
+
+      - name: Upload OWASP ZAP report
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-zap-report
+          path: owasp-zap-report.html
+
+      - name: Stop Next.js server
+        if: always()
+        run: kill $(cat /tmp/next.pid) || true
+
+      - name: Run npm audit for OWASP issues
+        run: npm audit --audit-level=high
